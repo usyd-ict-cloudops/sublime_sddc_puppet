@@ -1,3 +1,3 @@
 
-import puppet.core.workon
+from .puppet.core import workon
 
