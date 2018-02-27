@@ -1,0 +1,157 @@
+[
+	// // Basics
+	// { "keys": ["alt+a"], "command": "puppet_advanced_open", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+h"], "command": "puppet_help", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// // Core Commands
+	// { "keys": ["alt+c","alt+d"], "command": "puppet_core_deploy", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+c","alt+e"], "command": "puppet_core_encrypt", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+c","alt+f"], "command": "puppet_core_finish", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+c","alt+o"], "command": "puppet_core_openproject", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+c","alt+p"], "command": "puppet_core_promote", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+c","alt+s"], "command": "puppet_core_switch", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+c","alt+u"], "command": "puppet_core_unclutter", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	{ "keys": ["alt+c","alt+w"], "command": "puppet_core_work_on", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	}
+	// // Remote Deploy Commands
+	// { "keys": ["alt+r","alt+a"], "command": "puppet_deploy_app", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+r","alt+d"], "command": "puppet_deploy_docs", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+r","alt+m"], "command": "puppet_deploy_module", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// // Module Commands
+	// { "keys": ["alt+m","alt+d"], "command": "puppet_module_docs", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+m","alt+f"], "command": "puppet_module_finish", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+m","alt+n"], "command": "puppet_module_new_file", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+m","alt+p"], "command": "puppet_module_promote", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+m","alt+s"], "command": "puppet_module_switch", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// // Work On Commands
+	// { "keys": ["alt+w","alt+a"], "command": "puppet_work_on_app", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+w","alt+d"], "command": "puppet_work_on_docs", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+w","alt+e"], "command": "puppet_work_on_env", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+w","alt+f"], "command": "puppet_work_on_focus", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+w","alt+m"], "command": "puppet_work_on_module", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+w","alt+r"], "command": "puppet_work_on_role", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
+	// { "keys": ["alt+w","alt+t"], "command": "puppet_work_on_type", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// }
+]
