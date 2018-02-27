@@ -1,7 +1,7 @@
 {
    "*": {
       "*": [
-         "sddc_common"
+         "python-sddc_common"
       ]
    }
 }
