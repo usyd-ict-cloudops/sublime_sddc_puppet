@@ -4,7 +4,7 @@ import sublime
 from sublime_plugin import WindowCommand
 from sddc_common.async import AsyncMacroRunner
 from sddc_common.workflow import work_on
-from .utils import ProjectCommandHelper, parse_target, get_work_on_params, find_yaml_key
+from .utils import ProjectCommandHelper, parse_target, get_work_on_params, find_yaml_key, noop
 from functools import partial
 
 
@@ -14,7 +14,7 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
         if path:
             self.on_target(path,state=state)
         elif path is None:
-            self.window.show_input_panel(title, default_text, partial(self.on_target,state=state))
+            self.window.show_input_panel(title, default_text, partial(self.on_target,state=state), noop, noop)
 
     def on_target(self, target, state=None):
         '''path, branch=None, acct=None, project_root=None, rewrite_map=None, provider=None, url_fmt=None, off_branch=None'''
