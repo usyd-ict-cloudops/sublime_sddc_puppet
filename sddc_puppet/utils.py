@@ -1,4 +1,3 @@
-
 import sublime
 import re
 import os.path as osp
@@ -77,7 +76,7 @@ target_regex_parts = {
     'tenants': '(?<=\\^)[a-z][a-z0-9]{3}',
     'applications': '(?<![*^])(?:[a-z][a-z0-9]{3}|)[a-z][a-z0-9]{3}',
     'suffix': '_(?P<suffix>[a-z][a-z0-9_]{1,24})',
-    'quick': '\\~(?P<quick>[dmo]|l[dpst]|[do][fko]\w(?P<release>\w*)))',
+    'quick': '\\~(?P<quick>[dmo]|l[dpst]|[do][fko]\w(?P<release>\w*))',
     'data': '(?P<app>\\.{0,2})|(?P<type>[a-z0-9]{2})|(?P<env>[a-z0-9])\\.?|\\.(?P<role>[a-z0-9.])',
     'branch': '(?:|@(?P<branch>\w+))',
     'subpath': '(?:|(?P<focus>/)|:(?P<subpath>.*))'
