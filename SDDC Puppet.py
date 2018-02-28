@@ -41,7 +41,7 @@ if reloaded:
 # Now actually import all the commands so they'll be visible to Sublime
 try:
     # Python 3
-    from .sddc_puppet import *
+    from .sddc_puppet import workon
 except (ImportError, ValueError):
     # Python 2
     pass

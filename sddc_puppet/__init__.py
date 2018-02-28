@@ -1,1 +1,1 @@
-from .workon import PuppetCoreWorkOnCommand
+__version__ = '0.1.3'
