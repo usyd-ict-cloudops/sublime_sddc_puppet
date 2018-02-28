@@ -1,0 +1,8 @@
+[
+	{
+		"command": "puppet_core_work_on", "caption": "Puppet Core: Work On", "context": [
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	}
+]
