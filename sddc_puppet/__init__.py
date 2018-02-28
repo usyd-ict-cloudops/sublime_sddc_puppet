@@ -1,1 +1,1 @@
-# from .workon import PuppetCoreWorkOnCommand
+from .workon import PuppetCoreWorkOnCommand
