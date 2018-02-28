@@ -94,6 +94,10 @@ Target = namedtuple('Target', [
     'app','env','role','type'])
 
 
+def noop(*args, **kwargs):
+    pass
+
+
 def get_promote_targets(branch,is_src=True):
     if branch in module_branches:
         idx = [i for i,sibs in enumerate(module_branch_order) if branch in sibs][0]
