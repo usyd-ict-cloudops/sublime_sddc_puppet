@@ -135,15 +135,15 @@ def get_repo_path_format(scope,repo_type):
     return get_setting('puppet_repo_path_format',repo_path_format)[scope][repo_type]
 
 
-def get_work_on_params(obj):
+def get_work_on_params(window):
     '''Pass a View or Window object to get the params required for sddc_common.workflow.work_on'''
-    window,view = obj.window(),obj if isinstance(obj, sublime.View) else obj,obj.active_view()
+    settings = window.settings()
     return {
         'project_root': window.extract_variables().get('folder'),
-        'acct': view.settings().get('team'),
-        'rewrite_map': view.settings().get('url_map'),
-        'provider': view.settings().get('git_repo_provider_authority'),
-        'url_fmt': view.settings().get('repo_url_format_string')
+        'acct': settings.get('puppet_scm_provider_account'),
+        'rewrite_map': settings.get('puppet_scm_provider_url_map'),
+        'provider': settings.get('puppet_scm_provider_authority'),
+        'url_fmt': settings.get('puppet_scm_repo_url_format_string')
     }
 
 
