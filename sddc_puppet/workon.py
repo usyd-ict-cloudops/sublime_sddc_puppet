@@ -42,7 +42,7 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
 
         '''
         work_on_params = get_work_on_params(self.window)
-        # target = parse_target(target)
+
         if target is None:
             return
 

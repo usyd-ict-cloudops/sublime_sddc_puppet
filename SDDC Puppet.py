@@ -40,9 +40,3 @@ if reloaded:
 
 # Now actually import all the commands so they'll be visible to Sublime
 from .sddc_puppet.workon import PuppetCoreWorkOnCommand
-# try:
-#     # Python 3
-#     from .sddc_puppet import workon
-# except (ImportError, ValueError):
-#     # Python 2
-#     pass
