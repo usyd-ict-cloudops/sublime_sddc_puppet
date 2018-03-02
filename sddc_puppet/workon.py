@@ -50,10 +50,8 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
         path = osp.join(work_on_params['project_root'],target.path)
         if not osp.exists(osp.dirname(repo_path)):
             os.makedirs(osp.dirname(repo_path),exist_ok=True)
-        try:
-            repo = work_on(target.repo,target.branch,**work_on_params)
-        except:
-            return
+
+        repo = work_on(target.repo,target.branch,**work_on_params)
 
         window = self.window
         if target.focus:
