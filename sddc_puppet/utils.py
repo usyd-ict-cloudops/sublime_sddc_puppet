@@ -137,7 +137,7 @@ def get_repo_path_format(scope,repo_type):
 
 def get_work_on_params(window):
     '''Pass a View or Window object to get the params required for sddc_common.workflow.work_on'''
-    settings = window.settings()
+    settings = window.active_view().settings()
     return {
         'project_root': window.extract_variables().get('folder'),
         'acct': settings.get('puppet_scm_provider_account'),
