@@ -10,6 +10,8 @@ from functools import partial
 
 class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowCommand):
 
+    status_fmt = 'Getting'
+
     def run(self, path=None, title='Work On', default_text='', state=None):
         if path:
             self.on_target(path,state=state)
@@ -23,12 +25,16 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
                 self.window.open_file(target)
             return
 
-        if parse_target(target) is None:
+        target = parse_target(target)
+
+        if target is None:
             return
+
+        print(target)
 
         self.run_command(state=state,target=target)
 
-    def async_cmd(self, target):
+    def async_cmd(self, target, **args):
         '''
         Get a repo and open the needed file based on a target ref
 
@@ -36,7 +42,7 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
 
         '''
         work_on_params = get_work_on_params(self.window)
-        target = parse_target(target)
+        # target = parse_target(target)
         if target is None:
             return
 
