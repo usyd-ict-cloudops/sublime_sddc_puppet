@@ -91,7 +91,7 @@ target_scopes = {'':'applications','*':'globals','^':'tenants'}
 Target = namedtuple('Target', [
     'ref','path','repo','branch','subpath',
     'focus','wiki','scope','prefix','suffix',
-    'app','env','role','type'])
+    'quick','release','app','env','role','type'])
 
 
 def noop(*args, **kwargs):
