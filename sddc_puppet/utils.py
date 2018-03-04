@@ -233,6 +233,7 @@ YAMLSymbol = namedtuple('YAMLSymbol', ['name','region'])
 
 
 def get_yaml_symbols(view):
+    """Get yaml key symbols"""
 
     regions = view.find_by_selector('entity.name.tag.yaml')
     content = view.substr(sublime.Region(0, view.size()))
@@ -258,8 +259,8 @@ def get_yaml_symbols(view):
     return symbols
 
 
-def find_yaml_key(path,key):
-    """TBD."""
+def find_yaml_key(view, key):
+    """Find the region within a view that matches key."""
     for symbol in get_yaml_symbols(view):
         if symbol.name==key:
             return symbol
