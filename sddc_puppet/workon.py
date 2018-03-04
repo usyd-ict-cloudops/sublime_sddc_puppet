@@ -92,7 +92,7 @@ class PuppetGetModuleCommand(ProjectCommandHelper,AsyncMacroRunner,WindowCommand
             items = [[m.name,['Remote','Local'][m.is_local]] for m in modules]+other_mod_select
             self.window.show_quick_panel(items, partial(self.on_state,state=state), sublime.KEEP_OPEN_ON_FOCUS_LOST)
 
-    def on_select(self, idx, state=state):
+    def on_select(self, idx, state=None):
             work_on_params = get_work_on_params(self.window)
             modules = get_modules(work_on_params['project_root'])
             if idx>=len(modules):
