@@ -111,7 +111,16 @@ def get_promote_targets(branch,is_src=True):
 class ProjectCommandHelper(object):
 
     def is_enabled(self,*args,**kwargs):
-        return self.window.settings().get('is_puppet',False)
+        return self.window.project_data().get('is_puppet',False)
+
+    def is_visible(self,*args,**kwargs):
+        return self.is_enabled(*args,**kwargs)
+
+
+class ContextCommandHelper(object):
+
+    def is_enabled(self,*args,**kwargs):
+        return self.view.settings().get('is_puppet',False)
 
     def is_visible(self,*args,**kwargs):
         return self.is_enabled(*args,**kwargs)
@@ -220,6 +229,38 @@ def parse_target(target):
     return Target(target, calculate_target_path(t), **t)
 
 
+YAMLSymbol = namedtuple('YAMLSymbol', ['name','region'])
+
+
+def get_yaml_symbols(view):
+
+    regions = view.find_by_selector('entity.name.tag.yaml')
+    content = view.substr(sublime.Region(0, view.size()))
+
+    symbols = []
+    current_path = []
+
+    for region in regions:
+        key = content[region.begin():region.end()]
+
+        # Characters count from line beginning to key start position
+        indent_level = region.begin() - content.rfind("\n", 0, region.begin()) - 1
+
+        # Pop items from current_path while its indentation level less than current key indentation
+        while len(current_path) > 0 and current_path[-1]["indent"] >= indent_level:
+            current_path.pop()
+
+        current_path.append({"key": key, "indent": indent_level})
+
+        symbol_name = ".".join(map(lambda item: item["key"], current_path))
+        symbols.append(YAMLSymbol(name=symbol_name, region=region))
+
+    return symbols
+
+
 def find_yaml_key(path,key):
     """TBD."""
-    return
+    for symbol in get_yaml_symbols(view):
+        if symbol.name==key:
+            return symbol
+

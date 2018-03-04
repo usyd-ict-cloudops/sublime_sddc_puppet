@@ -57,12 +57,12 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
         if target.focus:
             # TBD. Open an application folder in a new window
             pass
-        if target.path != target.repo:
-            flags = sublime.TRANSIENT
+        elif target.path != target.repo:
             if not target.wiki and not target.suffix and osp.exists(path):
-                row = find_yaml_key(path, target.subpath)
-                if row is not None:
-                    path = '{0}:{1}'.format(path,row)
-                    flags |= sublime.ENCODED_POSITION
-            return window.open_file(path, flags)
+                view = window.open_file(path, sublime.TRANSIENT)
+                symbol = find_yaml_key(path, target.subpath)
+                if symbol is not None:
+                    view.show_at_center(symbol.region)
+                    view.sel().clear()
+                    view.sel().add(sublime.Region(symbol.region.end() + 1))
         return repo
