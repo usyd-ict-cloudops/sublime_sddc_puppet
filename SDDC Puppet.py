@@ -39,4 +39,4 @@ if reloaded:
     print("SDDC Puppet: reloaded submodules", reloaded)
 
 # Now actually import all the commands so they'll be visible to Sublime
-from .sddc_puppet.workon import PuppetCoreWorkOnCommand
+from .sddc_puppet.workon import PuppetCoreWorkOnCommand, PuppetGetAppCommand, PuppetGetModuleCommand

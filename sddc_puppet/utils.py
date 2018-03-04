@@ -24,20 +24,20 @@ repo_path_format = {
     'applications': {
         'data': 'applications/{prefix}/data',
         'data_wiki': 'applications/{prefix}/wiki/data',
-        'module': 'applications/{prefix}/modules/{prefix}_{name}',
-        'module_wiki': 'applications/{prefix}/wiki/modules/{prefix}_{name}'
+        'module': 'applications/{prefix}/modules/{prefix}_{suffix}',
+        'module_wiki': 'applications/{prefix}/wiki/modules/{prefix}_{suffix}'
     },
     'tenants': {
         'data': 'tenants/{prefix}/data',
         'data_wiki': 'tenants/{prefix}/wiki/data',
-        'module': 'tenants/{prefix}/modules/{prefix}_{name}',
-        'module_wiki': 'tenants/{prefix}/wiki/modules/{prefix}_{name}'
+        'module': 'tenants/{prefix}/modules/{prefix}_{suffix}',
+        'module_wiki': 'tenants/{prefix}/wiki/modules/{prefix}_{suffix}'
     },
     'globals': {
         'data': 'global/data/{prefix}',
         'data_wiki': 'global/wiki/data/{prefix}',
-        'module': 'global/modules/{prefix}_{name}',
-        'module_wiki': 'global/wiki/modules/{prefix}_{name}'
+        'module': 'global/modules/{prefix}_{suffix}',
+        'module_wiki': 'global/wiki/modules/{prefix}_{suffix}'
     }
 }
 
@@ -265,3 +265,27 @@ def find_yaml_key(view, key):
         if symbol.name==key:
             return symbol
 
+
+PuppetModule = namedtuple('PuppetModule', ['is_local','scope','name','in_metadata'])
+
+
+def get_modules(project_root):
+    '''Return a list of PuppetModules'''
+
+    mods = {}
+    lf_mods = {}
+    md_mods = {}
+    for scope in target_scopes.values():
+        lf_glob_target = osp.join(project_root,get_repo_path_format(scope,'module').format(prefix='*',suffix='*/'))
+        lf_mods[scope] = set(osp.basename(osp.normpath(d)) for d in glob(lf_glob_target))
+        md_mods[scope] = set()
+        md_glob_target = osp.join(project_root,get_repo_path_format(scope,'data').format(prefix='*'),'metadata.yaml')
+        for md_fn in glob(md_glob_target):
+            with open(md_fn) as fp:
+                md_mods[scope].update(yaml.safe_load(fp).get('modules',[]))
+        mods[scope] = [PuppetModule(m in lf_mods,scope,m,m in md_mods) for m in lf_mods+md_mods]
+
+    return sorted(sum(mods.values(),[]))
+
+def get_module(project_root, module_name):
+    pass
