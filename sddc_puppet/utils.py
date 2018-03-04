@@ -24,20 +24,20 @@ repo_path_format = {
     'applications': {
         'data': 'applications/{prefix}/data',
         'data_wiki': 'applications/{prefix}/wiki/data',
-        'module': 'applications/{prefix}/modules/{prefix}_{name}',
-        'module_wiki': 'applications/{prefix}/wiki/modules/{prefix}_{name}'
+        'module': 'applications/{prefix}/modules/{prefix}_{suffix}',
+        'module_wiki': 'applications/{prefix}/wiki/modules/{prefix}_{suffix}'
     },
     'tenants': {
         'data': 'tenants/{prefix}/data',
         'data_wiki': 'tenants/{prefix}/wiki/data',
-        'module': 'tenants/{prefix}/modules/{prefix}_{name}',
-        'module_wiki': 'tenants/{prefix}/wiki/modules/{prefix}_{name}'
+        'module': 'tenants/{prefix}/modules/{prefix}_{suffix}',
+        'module_wiki': 'tenants/{prefix}/wiki/modules/{prefix}_{suffix}'
     },
     'globals': {
         'data': 'global/data/{prefix}',
         'data_wiki': 'global/wiki/data/{prefix}',
-        'module': 'global/modules/{prefix}_{name}',
-        'module_wiki': 'global/wiki/modules/{prefix}_{name}'
+        'module': 'global/modules/{prefix}_{suffix}',
+        'module_wiki': 'global/wiki/modules/{prefix}_{suffix}'
     }
 }
 
@@ -111,7 +111,16 @@ def get_promote_targets(branch,is_src=True):
 class ProjectCommandHelper(object):
 
     def is_enabled(self,*args,**kwargs):
-        return self.window.settings().get('is_puppet',False)
+        return self.window.project_data().get('is_puppet',False)
+
+    def is_visible(self,*args,**kwargs):
+        return self.is_enabled(*args,**kwargs)
+
+
+class ContextCommandHelper(object):
+
+    def is_enabled(self,*args,**kwargs):
+        return self.view.settings().get('is_puppet',False)
 
     def is_visible(self,*args,**kwargs):
         return self.is_enabled(*args,**kwargs)
@@ -220,6 +229,63 @@ def parse_target(target):
     return Target(target, calculate_target_path(t), **t)
 
 
-def find_yaml_key(path,key):
-    """TBD."""
-    return
+YAMLSymbol = namedtuple('YAMLSymbol', ['name','region'])
+
+
+def get_yaml_symbols(view):
+    """Get yaml key symbols"""
+
+    regions = view.find_by_selector('entity.name.tag.yaml')
+    content = view.substr(sublime.Region(0, view.size()))
+
+    symbols = []
+    current_path = []
+
+    for region in regions:
+        key = content[region.begin():region.end()]
+
+        # Characters count from line beginning to key start position
+        indent_level = region.begin() - content.rfind("\n", 0, region.begin()) - 1
+
+        # Pop items from current_path while its indentation level less than current key indentation
+        while len(current_path) > 0 and current_path[-1]["indent"] >= indent_level:
+            current_path.pop()
+
+        current_path.append({"key": key, "indent": indent_level})
+
+        symbol_name = ".".join(map(lambda item: item["key"], current_path))
+        symbols.append(YAMLSymbol(name=symbol_name, region=region))
+
+    return symbols
+
+
+def find_yaml_key(view, key):
+    """Find the region within a view that matches key."""
+    for symbol in get_yaml_symbols(view):
+        if symbol.name==key:
+            return symbol
+
+
+PuppetModule = namedtuple('PuppetModule', ['is_local','scope','name','in_metadata'])
+
+
+def get_modules(project_root):
+    '''Return a list of PuppetModules'''
+
+    mods = {}
+    lf_mods = {}
+    md_mods = {}
+    for scope in target_scopes.values():
+        lf_glob_target = osp.join(project_root,get_repo_path_format(scope,'module').format(prefix='*',suffix='*/'))
+        lf_mods[scope] = set(osp.basename(osp.normpath(d)) for d in glob(lf_glob_target))
+        md_mods[scope] = set()
+        md_glob_target = osp.join(project_root,get_repo_path_format(scope,'data').format(prefix='*'),'metadata.yaml')
+        for md_fn in glob(md_glob_target):
+            with open(md_fn) as fp:
+                md_mods[scope].update(yaml.safe_load(fp).get('modules',[]))
+        mods[scope] = [PuppetModule(m in lf_mods,scope,m,m in md_mods) for m in lf_mods+md_mods]
+
+    return sorted(sum(mods.values(),[]))
+
+def get_module(project_root, module_name):
+    pass
