@@ -113,17 +113,11 @@ class ProjectCommandHelper(object):
     def is_enabled(self,*args,**kwargs):
         return self.window.project_data().get('is_puppet',False)
 
-    def is_visible(self,*args,**kwargs):
-        return self.is_enabled(*args,**kwargs)
-
 
 class ContextCommandHelper(object):
 
     def is_enabled(self,*args,**kwargs):
         return self.view.settings().get('is_puppet',False)
-
-    def is_visible(self,*args,**kwargs):
-        return self.is_enabled(*args,**kwargs)
 
 
 # settings helpers

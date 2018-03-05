@@ -15,7 +15,11 @@ mod_prefix = 'sddc_puppet'
 # ST3 loads each package as a module, so it needs an extra prefix
 if sys.version_info >= (3,):
     bare_mod_prefix = mod_prefix
-    mod_prefix = 'SDDC Puppet.' + mod_prefix
+    import os.path as osp
+    package_name = osp.basename(osp.dirname(__file__))
+    if package_name.endswith('.sublime-package'):
+        package_name = package_name.rsplit('.',1)[0]
+    mod_prefix = package_name + '.' + mod_prefix
     from imp import reload
 
 # Modules have to be reloaded in dependency order. So list 'em here:
