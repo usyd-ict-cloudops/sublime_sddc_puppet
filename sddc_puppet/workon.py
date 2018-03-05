@@ -72,12 +72,12 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
 
 class PuppetGetAppCommand(ProjectCommandHelper,AsyncMacroRunner,WindowCommand):
     def run(self, app_prefix=None, state=None):
-            self.window.run_command('puppet_core_work_on',args={
-                'target': app_prefix,
-                'title': 'Get App',
-                'default_text': 'default_text',
-                'state': state
-            })
+        self.window.run_command('puppet_core_work_on',args={
+            'target': app_prefix,
+            'title': 'Get App',
+            'default_text': 'default_text',
+            'state': state
+        })
 
 
 other_mod_select = [['-','Other Application Module'],['^','Other Tenant Module'],['*','Other Global Module']]
