@@ -15,11 +15,7 @@ mod_prefix = 'sddc_puppet'
 # ST3 loads each package as a module, so it needs an extra prefix
 if sys.version_info >= (3,):
     bare_mod_prefix = mod_prefix
-    import os.path as osp
-    package_name = osp.basename(osp.dirname(__file__))
-    if package_name.endswith('.sublime-package'):
-        package_name = package_name.rsplit('.',1)[0]
-    mod_prefix = package_name + '.' + mod_prefix
+    mod_prefix = 'SDDC Puppet.' + mod_prefix
     from imp import reload
 
 # Modules have to be reloaded in dependency order. So list 'em here:
@@ -27,7 +23,9 @@ mods_load_order = [
     '',
 
     '.utils',
-    '.workon'
+    '.workon',
+    '.project',
+    '.eyaml'
 ]
 
 reload_mods = [mod for mod in sys.modules if mod[0:11] in ('sddc_puppet', 'SDDC Puppet') and sys.modules[mod] is not None]
@@ -43,4 +41,7 @@ if reloaded:
     print("SDDC Puppet: reloaded submodules", reloaded)
 
 # Now actually import all the commands so they'll be visible to Sublime
-from .sddc_puppet.workon import PuppetCoreWorkOnCommand, PuppetGetAppCommand, PuppetGetModuleCommand
+from .sddc_puppet.workon import PuppetCoreWorkOnCommand, PuppetWorkOnAppCommand, PuppetWorkOnModuleCommand
+from .sddc_puppet.project import PuppetCoreProjectCommand, PuppetProjectCommand
+from .sddc_puppet.eyaml import EyamlEncryptCommand
+from sddc_common import *

@@ -1,17 +1,65 @@
 [
 	// // Basics
-	// { "keys": ["alt+a"], "command": "puppet_advanced_open", "context":
-	// 	[
-	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
-	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
-	// 	]
-	// },
-	// { "keys": ["alt+h"], "command": "puppet_help", "context":
-	// 	[
-	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
-	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
-	// 	]
-	// },
+	{ "keys": ["alt+a"], "command": "puppet_work_on_app", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["alt+h"], "command": "puppet_help", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["alt+m"], "command": "puppet_work_on_module", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["alt+shift+d"], "command": "puppet_deploy", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["alt+shift+f"], "command": "puppet_finish", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["alt+shift+p"], "command": "puppet_promote", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["alt+w"], "command": "puppet_core_work_on", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["ctrl+alt+shift+e"], "command": "eyaml_encrypt", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["ctrl+alt+s"], "command": "puppet_switch", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["ctrl+alt+shift+s"], "command": "puppet_sync", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	}
 	// // Core Commands
 	// { "keys": ["alt+c","alt+d"], "command": "puppet_core_deploy", "context":
 	// 	[
@@ -55,12 +103,12 @@
 	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 	// 	]
 	// },
-	{ "keys": ["alt+c","alt+w"], "command": "puppet_core_work_on", "context":
-		[
-			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
-			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
-		]
-	}
+	// { "keys": ["alt+c","alt+w"], "command": "puppet_core_work_on", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// },
 	// // Remote Deploy Commands
 	// { "keys": ["alt+r","alt+a"], "command": "puppet_deploy_app", "context":
 	// 	[
@@ -112,12 +160,18 @@
 	// 	]
 	// },
 	// // Work On Commands
-	// { "keys": ["alt+w","alt+a"], "command": "puppet_work_on_app", "context":
+	// { "keys": ["alt+w"], "command": "puppet_core_work_on", "context":
 	// 	[
 	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
 	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 	// 	]
 	// },
+	// { "keys": ["alt+w","alt+a"], "command": "puppet_get_app", "context":
+	// 	[
+	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+	// 		{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+	// 	]
+	// }
 	// { "keys": ["alt+w","alt+d"], "command": "puppet_work_on_docs", "context":
 	// 	[
 	// 		{ "key": "setting.is_widget", "operator": "equal", "operand": false },
