@@ -2,8 +2,10 @@ import sublime
 import re
 import os.path as osp
 from collections import namedtuple
+from glob import glob
+import yaml
 
-SETTINGS_FILE = 'SDDC.sublime-settings'
+SETTINGS_FILE = 'SDDC Puppet.sublime-settings'
 
 module_branch_order = [
     ['master'],
@@ -108,16 +110,72 @@ def get_promote_targets(branch,is_src=True):
         return [b for b in sum(module_branch_order[s:e],[]) if b != branch]
 
 
-class ProjectCommandHelper(object):
+def expand_path(path,window=None):
+    window = sublime.active_window() if window is None else window
+    return sublime.expand_variables(osp.expanduser(path),window.extract_variables())
+
+def is_puppet(view):
+    return view.settings().get('is_puppet',False)
+
+
+class PuppetCommandHelper(object):
+
+    def is_puppet(self):
+        return is_puppet(self.view)
+
+    def get_setting(self, setting, default=None):
+        return self.view.settings().get(setting,get_setting(setting,default))
+
+    def get_file_setting(self, setting, default=None):
+        return expand_path(self.get_setting(setting,default), self.window)
+
+
+class NotProjectCommandHelper(PuppetCommandHelper):
+
+    @property
+    def view(self):
+        return self.window.active_view()
+
+
+class PuppetOnlyCommandHelper(PuppetCommandHelper):
 
     def is_enabled(self,*args,**kwargs):
-        return self.window.project_data().get('is_puppet',False)
+        return self.is_puppet()
+
+    @property
+    def project_root(self):
+        return self.window.extract_variables().get('folder')
+
+    @property
+    def work_on_params():
+        return {
+            'project_root': self.project_root,
+            'account': self.get_setting('puppet_scm_provider_account'),
+            'rewrite_map': self.get_setting('puppet_scm_provider_url_map'),
+            'provider': self.get_setting('puppet_scm_provider_authority'),
+            'url_fmt': self.get_setting('puppet_scm_repo_url_format_string')
+        }
 
 
-class ContextCommandHelper(object):
+class ProjectCommandHelper(PuppetOnlyCommandHelper):
 
-    def is_enabled(self,*args,**kwargs):
-        return self.view.settings().get('is_puppet',False)
+    @property
+    def view(self):
+        return self.window.active_view()
+
+
+class ContextCommandHelper(PuppetOnlyCommandHelper):
+
+    @property
+    def window(self):
+        return self.view.window()
+
+    @property
+    def app_prefix(self):
+        fn = self.view.file_name()
+        if fn and fn.startswith(osp.join(self.project_root,'applications')):
+            return osp.relpath(fn,osp.join(self.project_root,'applications')).split(osp.sep)[0]
+        return None
 
 
 # settings helpers
@@ -143,7 +201,7 @@ def get_work_on_params(window):
     settings = window.active_view().settings()
     return {
         'project_root': window.extract_variables().get('folder'),
-        'acct': settings.get('puppet_scm_provider_account'),
+        'account': settings.get('puppet_scm_provider_account'),
         'rewrite_map': settings.get('puppet_scm_provider_url_map'),
         'provider': settings.get('puppet_scm_provider_authority'),
         'url_fmt': settings.get('puppet_scm_repo_url_format_string')
@@ -164,11 +222,11 @@ def calculate_target_path(t):
             fn_fmt = '{subpath}'
             if t['subpath']=='':
                 fn_fmt = 'README.md'
-            elif ext=='pp' and not t['subpath'].startswith('manifests/'):
+            elif ext=='.pp' and not t['subpath'].startswith('manifests/'):
                 fn_fmt = 'manifests/{subpath}'
-            elif ext=='erb' and not t['subpath'].startswith('templates/'):
+            elif ext=='.erb' and not t['subpath'].startswith('templates/'):
                 fn_fmt = 'templates/{subpath}'
-            elif ext=='rb' and not t['subpath'].startswith('lib/'):
+            elif ext=='.rb' and not t['subpath'].startswith('lib/'):
                 fn_fmt = 'lib/{subpath}' if osp.sep in t['subpath'] else 'lib/facter/{subpath}'
     elif t['scope']!='applications':
         if t['quick']:
@@ -192,6 +250,7 @@ def calculate_target_path(t):
         fn_fmt = '{subpath}' if t['subpath'] else 'README.md'
     else:
         fn_fmt = 'app.yaml'
+    print(fn_fmt)
     return osp.normpath(osp.join(t['repo'],fn_fmt.format(**t)))
 
 
@@ -199,6 +258,7 @@ def parse_target(target):
     '''Convert target ref to Target namedtuple'''
     match = target_regex.match(target)
     if not match:
+        print('Invalid Target: {0!r}'.format(target))
         return
 
     t = match.groupdict()
@@ -277,7 +337,7 @@ def get_modules(project_root):
         for md_fn in glob(md_glob_target):
             with open(md_fn) as fp:
                 md_mods[scope].update(yaml.safe_load(fp).get('modules',[]))
-        mods[scope] = [PuppetModule(m in lf_mods,scope,m,m in md_mods) for m in lf_mods+md_mods]
+        mods[scope] = [PuppetModule(m in lf_mods[scope],scope,m,m in md_mods[scope]) for m in lf_mods[scope]|md_mods[scope]]
 
     return sorted(sum(mods.values(),[]))
 

@@ -1,62 +1,148 @@
 [
     {
-        "caption": "SDDC",
+        "id": "help",
+        "children": [
+            {"caption": "-"},
+            {"caption": "SDDC Puppet", "command": "puppet_help"},
+            {"caption": "-"}
+        ]
+    },
+    {
         "id": "sddc",
         "children":
         [
+            {"command": "puppet_project"},
+            {"command": "puppet_project", "args": {"setup": true}},
+            {"command": "puppet_project", "args": {"setup": true,"defaults":true}},
+            {"caption": "Help", "command": "puppet_help"},
+            {"caption": "-", "id": "sddc-puppet"},
+            {"caption": "Work On Hiera Data", "command": "puppet_work_on_app"},
+            {"caption": "Work On Puppet Module", "command": "puppet_work_on_module"},
+            {"caption": "Encrypt Data Value", "command": "eyaml_encrypt"},
+            {"caption": "Sync Repo", "command": "puppet_sync"},
+            {"caption": "Deploy Changes", "command": "puppet_deploy"},
+            {"caption": "-", "id": "sddc-puppet-module"},
+            {"caption": "Switch Module Branch", "command": "puppet_switch"},
+            {"caption": "Promote Module Branch", "command": "puppet_promote"},
+            {"caption": "Finish", "command": "puppet_finish"},
+            {"caption": "-", "id": "sddc-puppet-other"},
             {
-                "caption": "Work On",
-                "id": "sddc-puppet-workon",
+                "caption": "Puppet Advanced",
+                "id": "sddc-puppet",
                 "children": [
                     {
-                        "caption": "Get App",
-                        "command": "puppet_get_app"
+                        "caption": "Work On",
+                        "id": "sddc-puppet-workon",
+                        "children": [
+                            {
+                                "caption": "Work On Current App Environment",
+                                "command": "puppet_work_on_context",
+                                "args": {"role":"."}
+                            },
+                            {
+                                "caption": "Work On Current Role",
+                                "command": "puppet_work_on_context",
+                                "args": {"env":"."}
+                            },
+                            {
+                                "caption": "Work On Current App Type",
+                                "command": "puppet_work_on_context"
+                            },
+                            {
+                                "caption": "Work On Target",
+                                "command": "puppet_core_work_on"
+                            }
+                        ]
                     },
                     {
-                        "caption": "Get Module",
-                        "command": "puppet_get_module"
+                        "caption": "Sync",
+                        "id": "sddc-puppet-sync",
+                        "children": [
+                            {
+                                "caption": "Current Repo",
+                                "command": "puppet_core_sync",
+                                "args": {}
+                            },
+                            {
+                                "caption": "Current Application Repos",
+                                "command": "",
+                                "args": {}
+                            },
+                            {
+                                "caption": "Sync All Repos",
+                                "command": "",
+                                "args": {}
+                            }
+                        ]
                     },
                     {
-                        "caption": "Work On Target",
-                        "command": "puppet_core_work_on"
+                        "caption": "Deploy",
+                        "id": "sddc-puppet-deploy",
+                        "children": [
+                            {
+                                "caption": "Deploy Current File",
+                                "command": "puppet_core_deploy",
+                                "args": {
+                                    "all_files": false,
+                                    "include_untracked": false
+                                }
+                            },
+                            {
+                                "caption": "Deploy Updated Files",
+                                "command": "puppet_core_deploy",
+                                "args": {
+                                    "all_files": true,
+                                    "include_untracked": false
+                                }
+                            },
+                            {
+                                "caption": "Deploy All Files",
+                                "command": "puppet_core_deploy",
+                                "args": {
+                                    "all_files": true,
+                                    "include_untracked": true
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "caption": "Promote",
+                        "id": "sddc-puppet-promote",
+                        "children": [
+                            {"caption": "Promote from", "command": "puppet_core_promote", 
+                                "args": {"to": false}},
+                            {"caption": "Promote to", "command": "puppet_core_promote", 
+                                "args": {"to": true}},
+                            {"caption": "Promote and Finish", "command": "puppet_promote", 
+                                "args": {"finish": true}},
+                            {"caption": "Promote from and Finish", "command": "puppet_core_promote",
+                                "args": {"to": false, "finish": true}},
+                            {"caption": "Promote to and Finish", "command": "puppet_core_promote",
+                                "args": {"to": true, "finish": true}},
+                            {"caption": "Promote and Force Finish", "command": "puppet_core_promote",
+                                "args": {"finish": true, "force_finish": true}},
+                            {"caption": "Force Promote: Overwrite", "command": "puppet_core_promote",
+                                "args": {"force": true, "overwrite": true}},
+                            {"caption": "Force Promote: Discard", "command": "puppet_core_promote",
+                                "args": {"force": true, "overwrite": false}},
+                        ]
+                    },
+                    {
+                        "caption": "Other",
+                        "id": "sddc-puppet-promote",
+                        "children": [
+                            {"caption": "Unclutter", "command": "puppet_unclutter"},
+                        ]
                     }
                 ]
-            // },
-            // {
-            //     "caption": "Sync",
-            //     "id": "sddc-puppet-sync",
-            //     "children": [
-            //         {
-            //             "caption": "Current Repo",
-            //             "command": "",
-            //             "args": {}
-            //         },
-            //         {
-            //             "caption": "Current Application Repos",
-            //             "command": "",
-            //             "args": {}
-            //         },
-            //         {
-            //             "caption": "Sync All Repos",
-            //             "command": "",
-            //             "args": {}
-            //         }
-            //     ]
-            // },
-            // {
-            //     "caption": "Deploy",
-            //     "id": "sddc-puppet-deploy",
-            //     "children": [
-            //         {
-            //             "caption": "Deploy: All Files",
-            //             "command": ""
-            //         }
-            //     ]
-            // },
-            // {
-            //     "caption": "Promote",
-            //     "id": "sddc-puppet-promote",
-            //     "children": []
+            },
+            {"caption": "-"},
+            {
+                "id": "sddc-useful-packages",
+                "children": [
+                    {"command": "smart_install", "args": {"name":"Puppet"}},
+                    {"command": "smart_install", "args": {"name": "SublimeLinter-contrib-puppet-lint,SublimeLinter"}}
+                ]
             }
         ]
     }

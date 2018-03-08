@@ -1,12 +1,40 @@
 {
-	// Default Location of the puppet project file
-	"puppet_project": "~/Projects/puppet.sublime-project",
+	// EYAML private key file. It is always a PEM encoded pkcs1.
+	"eyaml_private_key_file": "~/.eyaml/private_key.pkcs7.pem",
 
-	// Prevent modification of core repos
-	"core_repos_readonly": true,
+	// EYAML public key file. By default it uses a PEM encoded x509 cert.
+	"eyaml_public_key_file": "~/.eyaml/public_key.pkcs7.pem",
+
+	// The public key is encoded as a certificate instead of pkcs1
+	// This is the eyaml default as it uses openssl smime to handle
+	// encryption.
+	"eyaml_public_key_is_x509": true,
+
+	// hostname or hostname:port.
+	// Defaults to github.com if puppet_scm_provider_url_map is github 
+	// else defaults to bitbucket.org
+	"puppet_scm_provider_authority": null,
+
+	// Mapping of folder path regular expressions to repo name format strings
+	// Can be a string of bitbucket or github to use built in mappings
+	// Defaults to bitbucket
+	"puppet_scm_provider_url_map": null,
+
+	// Allows for complete overwriting of the repo url formatting
+	// Defaults to "git@{provider}:{account}/{name}"
+	"puppet_scm_repo_url_format_string": null,
+
+	// Default Location of the puppet project file
+	"puppet_project": "~/Projects/puppet/puppet.sublime-project",
+
+	// Prevent modification of global repos
+	"puppet_global_repos_readonly": true,
+
+	// Allow these tenants to be edited
+	"puppet_editable_tenants": [],
 
 	// .gitignore template components
-	"gitignore_templates": {
+	"puppet_gitignore_templates": {
 		"generic": [
 			".DS_Store",
 			".DS_Store?",
