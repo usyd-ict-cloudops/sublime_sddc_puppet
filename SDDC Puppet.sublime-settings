@@ -10,6 +10,9 @@
 	// encryption.
 	"eyaml_public_key_is_x509": true,
 
+	// Primary Account to suggest during project setup
+	"puppet_scm_provider_account": null,
+
 	// hostname or hostname:port.
 	// Defaults to github.com if puppet_scm_provider_url_map is github 
 	// else defaults to bitbucket.org

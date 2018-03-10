@@ -146,8 +146,14 @@ class PuppetOnlyCommandHelper(PuppetCommandHelper):
     def project_root(self):
         return self.window.extract_variables().get('folder')
 
+    def find_view(self, **kwargs):
+        for view in self.window.views():
+            s = view.settings()
+            if all(s.get(k) == v for k, v in list(kwargs.items())):
+                return view
+
     @property
-    def work_on_params():
+    def work_on_params(self):
         return {
             'project_root': self.project_root,
             'account': self.get_setting('puppet_scm_provider_account'),
@@ -177,6 +183,11 @@ class ContextCommandHelper(PuppetOnlyCommandHelper):
             return osp.relpath(fn,osp.join(self.project_root,'applications')).split(osp.sep)[0]
         return None
 
+
+class YAMLHelper(ContextCommandHelper):
+
+    def is_enabled(self,*args,**kwargs):
+        return bool(self.is_puppet() and self.view.file_name() and osp.splitext(self.view.file_name())[-1]=='.yaml')
 
 # settings helpers
 

@@ -24,7 +24,7 @@
             {"caption": "-", "id": "sddc-puppet-module"},
             {"caption": "Switch Module Branch", "command": "puppet_switch"},
             {"caption": "Promote Module Branch", "command": "puppet_promote"},
-            {"caption": "Finish", "command": "puppet_finish"},
+            {"caption": "Finish Module Branch", "command": "puppet_finish"},
             {"caption": "-", "id": "sddc-puppet-other"},
             {
                 "caption": "Puppet Advanced",
