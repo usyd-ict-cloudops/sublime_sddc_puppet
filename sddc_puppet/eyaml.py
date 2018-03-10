@@ -3,7 +3,7 @@ import os
 import sublime
 from sublime_plugin import TextCommand
 from sddc_common.pkcs7 import encrypt
-from .utils import ContextCommandHelper, get_setting
+from .utils import YAMLHelper, get_setting
 from package_control.deps.asn1crypto import pem, x509, keys
 
 
@@ -23,7 +23,7 @@ def convert_x509_keydata(der_cert):
 	return keys.RSAPublicKey(cert.public_key['public_key'].native).dump()
 
 
-class EyamlEncryptCommand(ContextCommandHelper,TextCommand):
+class EyamlEncryptCommand(YAMLHelper,TextCommand):
 	def run(self, edit):
 		pkfn = self.get_file_setting('eyaml_public_key_file')
 		keydata = der_from_pem_file(pkfn)

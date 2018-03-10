@@ -36,6 +36,12 @@
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 		]
 	},
+	{ "keys": ["alt+shift+s"], "command": "puppet_sync", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
 	{ "keys": ["alt+w"], "command": "puppet_core_work_on", "context":
 		[
 			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
@@ -44,17 +50,13 @@
 	},
 	{ "keys": ["ctrl+alt+shift+e"], "command": "eyaml_encrypt", "context":
 		[
+			{ "key": "selector", "operator": "equal", "operand": "source.yaml" },
+			{ "key": "num_selections", "operator": "equal", "operand": 1 },
 			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 		]
 	},
 	{ "keys": ["ctrl+alt+s"], "command": "puppet_switch", "context":
-		[
-			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
-			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
-		]
-	},
-	{ "keys": ["ctrl+alt+shift+s"], "command": "puppet_sync", "context":
 		[
 			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
