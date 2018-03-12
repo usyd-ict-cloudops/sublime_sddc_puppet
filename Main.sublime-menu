@@ -15,20 +15,10 @@
             {"command": "puppet_project", "args": {"setup": true}},
             {"command": "puppet_project", "args": {"setup": true,"defaults":true}},
             {"caption": "Help", "command": "puppet_help"},
-            {"caption": "-", "id": "sddc-puppet"},
-            {"caption": "Work On Hiera Data", "command": "puppet_work_on_app"},
-            {"caption": "Work On Puppet Module", "command": "puppet_work_on_module"},
-            {"caption": "Encrypt Data Value", "command": "eyaml_encrypt"},
-            {"caption": "Sync Repo", "command": "puppet_sync"},
-            {"caption": "Deploy Changes", "command": "puppet_deploy"},
-            {"caption": "-", "id": "sddc-puppet-module"},
-            {"caption": "Switch Module Branch", "command": "puppet_switch"},
-            {"caption": "Promote Module Branch", "command": "puppet_promote"},
-            {"caption": "Finish Module Branch", "command": "puppet_finish"},
             {"caption": "-", "id": "sddc-puppet-other"},
             {
                 "caption": "Puppet Advanced",
-                "id": "sddc-puppet",
+                "id": "sddc-puppet-advanced",
                 "children": [
                     {
                         "caption": "Work On",
@@ -136,7 +126,19 @@
                     }
                 ]
             },
-            {"caption": "-"},
+            {"caption": "-", "id": "sddc-puppet"},
+            {"caption": "Work On Hiera Data", "command": "puppet_work_on_app"},
+            {"caption": "Work On Puppet Module", "command": "puppet_work_on_module"},
+            {"caption": "Encrypt Data Value", "command": "eyaml_encrypt"},
+            {"caption": "Sync Repo", "command": "puppet_sync"},
+            {"caption": "Deploy Changes", "command": "puppet_deploy"},
+            {"caption": "-", "id": "sddc-puppet-module"},
+            {"caption": "Work On Module Branch", "command": "puppet_work_on_module_branch"},
+            {"caption": "Promote Module Branch", "command": "puppet_promote"},
+            {"caption": "Finish Module Branch", "command": "puppet_finish"},
+            {"caption": "-", "id": "sddc-git"},
+            // {"command": "git_switch"},
+            // {"caption": "-", "id": "sddc-packages"},
             {
                 "id": "sddc-useful-packages",
                 "children": [
