@@ -4,6 +4,7 @@ import os.path as osp
 from collections import namedtuple
 from glob import glob
 import yaml
+from sddc_common import scm
 
 SETTINGS_FILE = 'SDDC Puppet.sublime-settings'
 
@@ -108,6 +109,11 @@ def get_promote_targets(branch,is_src=True):
         else:
             s,e = idx,None
         return [b for b in sum(module_branch_order[s:e],[]) if b != branch]
+
+
+def get_module_branches(repo):
+    names = scm.branch_names(repo)
+    return [branch for branch in module_branches if branch not in names]
 
 
 def expand_path(path,window=None):

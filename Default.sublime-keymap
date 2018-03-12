@@ -18,6 +18,12 @@
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 		]
 	},
+	{ "keys": ["alt+shift+b"], "command": "puppet_work_on_new_branch", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
 	{ "keys": ["alt+shift+d"], "command": "puppet_deploy", "context":
 		[
 			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
