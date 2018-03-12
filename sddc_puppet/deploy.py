@@ -85,7 +85,7 @@ class PuppetDeployCommand(ContextCommandHelper,AsyncMacroRunner,TextCommand):
 
         # 4. Trigger a commit message window
 
-        view = self.find_view(sddc_view='deploy', sddc_repo=repo_path)
+        view = self.find_view(sddc_view='deploy', git_repo=repo_path)
         if not view:
             view = self.window.new_file()
             view.set_name(SDDC_DEPLOY_VIEW_TITLE)
@@ -93,7 +93,7 @@ class PuppetDeployCommand(ContextCommandHelper,AsyncMacroRunner,TextCommand):
             view.set_scratch(True)
 
             view.settings().set('sddc_view', 'deploy')
-            view.settings().set('sddc_repo', repo_path)
+            view.settings().set('git_repo', repo_path)
 
         # # view.settings().set('sddc_all', True if include_untracked else False if all_files else None)
         # view.settings().set('sddc_all', all_files)
@@ -132,7 +132,7 @@ class PuppetDeployEventListener(EventListener):
                 print('Aborting commit due to blank error message')
                 return
             window,state,cur_file,all_files,include_untracked = PuppetDeploy.windows[view.id()]
-            repo_path = view.settings().get('sddc_repo')
+            repo_path = view.settings().get('git_repo')
             # state = view.settings().get('sddc_state')
             # cur_file = view.settings().set('sddc_file')
             # all_files = view.settings().set('sddc_all')

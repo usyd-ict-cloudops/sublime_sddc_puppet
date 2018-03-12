@@ -2,8 +2,7 @@
 import sublime
 from sublime_plugin import WindowCommand
 import os.path as osp
-import subprocess
-# from sddc_common.workflow import get_config
+from sddc_common.workflow import get_config, set_config
 from .utils import NotProjectCommandHelper, get_setting, expand_path
 
 executable_path = sublime.executable_path()
@@ -14,6 +13,7 @@ if sublime.platform() == 'osx':
 
 
 def subl_command(*args, **kwargs):
+    import subprocess
     return subprocess.Popen((executable_path,)+args,**kwargs)
 
 
@@ -46,7 +46,7 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,WindowCommand):
     def run(self, account=None, name=None, email=None, location=None, setup=False, defaults=False, state=None, project_name=None):
         if setup:
             project_file_name = get_project(project_name)
-            account = get_setting('puppet_repo_account') if account is None else account
+            account = get_setting('puppet_scm_provider_account') if account is None else account
             location = project_file_name.rsplit('.',1)[0]
             cfg = get_config()
             if cfg:
