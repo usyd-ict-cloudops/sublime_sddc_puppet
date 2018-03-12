@@ -55,12 +55,6 @@
 			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 		]
-	},
-	{ "keys": ["ctrl+alt+s"], "command": "puppet_switch", "context":
-		[
-			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
-			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
-		]
 	}
 	// // Core Commands
 	// { "keys": ["alt+c","alt+d"], "command": "puppet_core_deploy", "context":
