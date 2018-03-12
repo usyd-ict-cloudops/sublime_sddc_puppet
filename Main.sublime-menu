@@ -133,7 +133,7 @@
             {"caption": "Sync Repo", "command": "puppet_sync"},
             {"caption": "Deploy Changes", "command": "puppet_deploy"},
             {"caption": "-", "id": "sddc-puppet-module"},
-            {"caption": "Work On Module Branch", "command": "puppet_work_on_module_branch"},
+            {"caption": "Work On New Module Branch", "command": "puppet_work_on_new_branch"},
             {"caption": "Promote Module Branch", "command": "puppet_promote"},
             {"caption": "Finish Module Branch", "command": "puppet_finish"},
             {"caption": "-", "id": "sddc-git"},
