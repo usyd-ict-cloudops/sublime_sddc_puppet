@@ -62,7 +62,7 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
         elif target.path != target.repo and open_target:
             view = window.open_file(path, sublime.TRANSIENT)
             if not target.wiki and not target.suffix and osp.exists(path):
-                symbol = find_yaml_key(path, target.subpath)
+                symbol = find_yaml_key(view, target.subpath)
                 if symbol is not None:
                     view.show_at_center(symbol.region)
                     view.sel().clear()
