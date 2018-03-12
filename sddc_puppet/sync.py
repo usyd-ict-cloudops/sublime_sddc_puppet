@@ -28,4 +28,10 @@ class PuppetCoreSyncCommand(ProjectCommandHelper,AsyncMacroRunner,WindowCommand)
 class PuppetSyncCommand(ContextCommandHelper,AsyncMacroRunner,TextCommand):
 
     def run(self, repo_path=None, branch=None):
-        pass
+        if repo_path is None:
+            repo_path = self.view.file_name()
+            if not repo_path or not osp.exists(repo_path):
+                repo_path = self.view.settings().get('sddc_repo')
+                if not repo_path or not osp.exists(repo_path):
+                    return
+        self.window.run_command('puppet_core_sync',args={'repo_path':repo_path,'branch':branch})
