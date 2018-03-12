@@ -71,7 +71,7 @@
                         "children": [
                             {
                                 "caption": "Deploy Current File",
-                                "command": "puppet_core_deploy",
+                                "command": "puppet_deploy",
                                 "args": {
                                     "all_files": false,
                                     "include_untracked": false
@@ -79,7 +79,7 @@
                             },
                             {
                                 "caption": "Deploy Updated Files",
-                                "command": "puppet_core_deploy",
+                                "command": "puppet_deploy",
                                 "args": {
                                     "all_files": true,
                                     "include_untracked": false
@@ -87,7 +87,7 @@
                             },
                             {
                                 "caption": "Deploy All Files",
-                                "command": "puppet_core_deploy",
+                                "command": "puppet_deploy",
                                 "args": {
                                     "all_files": true,
                                     "include_untracked": true
