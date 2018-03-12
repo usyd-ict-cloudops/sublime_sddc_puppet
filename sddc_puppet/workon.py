@@ -2,9 +2,11 @@ import os
 import os.path as osp
 import sublime
 from sublime_plugin import WindowCommand, TextCommand
+from sddc_common import scm
 from sddc_common.async import AsyncMacroRunner
-from sddc_common.workflow import work_on
-from .utils import ProjectCommandHelper, parse_target, get_work_on_params, find_yaml_key, noop, get_modules
+from sddc_common.workflow import work_on, switch_to
+from .utils import (ProjectCommandHelper, ContextCommandHelper, parse_target, get_work_on_params, 
+    find_yaml_key, noop, get_modules, get_module_branches)
 from functools import partial
 
 
@@ -116,3 +118,30 @@ class PuppetWorkOnModuleCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComm
                 'target': prefix+mod.name,
                 'state': state
             })
+
+
+class PuppetWorkOnNewBranchCommand(ContextCommandHelper,scm.RepoHelper,TextCommand):
+    def run(self, edit, branch=None):
+        repo = self.repo
+        if not repo:
+            return
+
+        repo_path = repo.working_dir
+
+        if '_' not in osp.basename(repo_path):
+            return
+
+        branches = get_module_branches(repo)
+
+        work_on_params = self.work_on_params
+
+        if branch is not None:
+            if branch in branches:
+                work_on(repo_path,branch,**work_on_params)
+        else:
+            def on_select(idx):
+                if 0 <= idx:
+                    work_on(repo_path,branches[idx],**work_on_params)
+            subtext = 'from: '+repo.head.ref.name
+            items = [[b,subtext] for b in branches]
+            self.window.show_quick_panel(items, on_select, sublime.MONOSPACE_FONT)
