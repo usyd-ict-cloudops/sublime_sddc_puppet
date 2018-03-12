@@ -137,8 +137,7 @@
             {"caption": "Promote Module Branch", "command": "puppet_promote"},
             {"caption": "Finish Module Branch", "command": "puppet_finish"},
             {"caption": "-", "id": "sddc-git"},
-            // {"command": "git_switch"},
-            // {"caption": "-", "id": "sddc-packages"},
+            {"caption": "-", "id": "sddc-packages"},
             {
                 "id": "sddc-useful-packages",
                 "children": [
