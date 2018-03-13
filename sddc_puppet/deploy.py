@@ -9,8 +9,8 @@ from .utils import ProjectCommandHelper, ContextCommandHelper, parse_target, get
 from functools import partial
 
 
-SDDC_DEPLOY_VIEW_TITLE = "DEPLOY_EDITMSG"
-SDDC_DEPLOY_VIEW_SYNTAX = 'Packages/SublimeGit/syntax/SublimeGit Commit Message.tmLanguage'
+SDDC_DEPLOY_VIEW_TITLE = "SDDC_DEPLOY_MSG"
+SDDC_DEPLOY_VIEW_SYNTAX = 'Packages/SDDC Puppet/SDDC Deploy Message.tmLanguage'
 SDDC_DEPLOY_TEMPLATE = """
 # Please enter the commit message for your changes. Lines starting
 # with '#' will be ignored, and an empty message aborts the commit.
