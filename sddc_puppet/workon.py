@@ -99,7 +99,7 @@ class PuppetWorkOnModuleCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComm
         modules = get_modules(work_on_params['project_root'])
         if idx>=len(modules):
             ms_idx = idx - len(modules)
-            ms = other_mod_select[other_idx]
+            ms = other_mod_select[ms_idx]
             self.window.run_command('puppet_core_work_on',args={
                 'title': 'Get {0}'.format(ms[ms_idx][1]),
                 'default_text': ms[ms_idx][0] if ms_idx else '',

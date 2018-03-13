@@ -1,0 +1,15 @@
+[
+    {"caption": "-", "id": "sddc-puppet-tab"},
+    {"caption": "Deploy Current File", "command": "puppet_deploy",
+        "args": {"all_files": false, "include_untracked": false}},
+    {"caption": "Deploy Updated Repo Files", "command": "puppet_deploy",
+        "args": {"all_files": true, "include_untracked": false}},
+    {"caption": "Deploy All Repo Files", "command": "puppet_deploy",
+        "args": {"all_files": true, "include_untracked": true}},
+    {"caption": "Force Promote: Overwrite", "command": "puppet_core_promote",
+        "args": {"force": true, "overwrite": true}},
+    {"caption": "Force Promote: Discard", "command": "puppet_core_promote",
+        "args": {"force": true, "overwrite": false}},
+    {"caption": "Prior Version…", "command": "puppet_revert",
+        "args": {"overwrite": false}}
+]
