@@ -26,7 +26,8 @@ mods_load_order = [
     '.workon',
     '.project',
     '.eyaml',
-    '.deploy'
+    '.deploy',
+    '.sync'
 ]
 
 reload_mods = [mod for mod in sys.modules if mod[0:11] in ('sddc_puppet', 'SDDC Puppet') and sys.modules[mod] is not None]
@@ -46,4 +47,5 @@ from .sddc_puppet.workon import PuppetCoreWorkOnCommand, PuppetWorkOnAppCommand,
 from .sddc_puppet.project import PuppetCoreProjectCommand, PuppetProjectCommand
 from .sddc_puppet.eyaml import EyamlEncryptCommand
 from .sddc_puppet.deploy import PuppetCoreDeployCommand, PuppetDeployCommand, PuppetTemplateCommand, PuppetDeployEventListener
+from .sddc_puppet.sync import PuppetCoreSyncCommand, PuppetSyncCommand
 from sddc_common import *
