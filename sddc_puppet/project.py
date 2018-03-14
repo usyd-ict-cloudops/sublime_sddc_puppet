@@ -1,20 +1,22 @@
 
 import sublime
 from sublime_plugin import WindowCommand
+import os
 import os.path as osp
+import subprocess
 from sddc_common.workflow import get_config, set_config
 from .utils import NotProjectCommandHelper, get_setting, expand_path
 
-executable_path = sublime.executable_path()
-
-if sublime.platform() == 'osx':
-    app_path = executable_path[:executable_path.rfind(".app/")+5]
-    executable_path = app_path+"Contents/SharedSupport/bin/subl"
+def get_executable_path():
+    executable_path = sublime.executable_path()
+    if sublime.platform() == 'osx':
+        app_path = executable_path[:executable_path.rfind(".app/")+5]
+        executable_path = app_path+"Contents/SharedSupport/bin/subl"
+    return executable_path
 
 
 def subl_command(*args, **kwargs):
-    import subprocess
-    return subprocess.Popen((executable_path,)+args,**kwargs)
+    return subprocess.Popen((get_executable_path(),)+args,**kwargs)
 
 
 def get_project(project_name=None):
@@ -47,7 +49,7 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,WindowCommand):
         if setup:
             project_file_name = get_project(project_name)
             account = get_setting('puppet_scm_provider_account') if account is None else account
-            location = project_file_name.rsplit('.',1)[0]
+            location = osp.dirname(project_file_name)
             cfg = get_config()
             if cfg:
                 name = name if name else cfg[0]
@@ -55,6 +57,11 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,WindowCommand):
             if defaults:
                 if project_exists(project_name):
                     return sublime.error_dialog('Project already exists!\n'+get_project(project_name))
+                if not osp.exists(location):
+                    os.makedirs(location)
+                    with open(project_file_name,'w') as fp:
+                        json.dump({'folders': [{'path','.'}], 'settings': {
+                            'is_puppet': True, 'puppet_scm_provider_account': account}},fp)
 
         open_project(project_name)
 
