@@ -128,7 +128,9 @@ class PuppetWorkOnNewBranchCommand(ContextCommandHelper,scm.RepoHelper,TextComma
 
         repo_path = repo.working_dir
 
-        if '_' not in osp.basename(repo_path):
+        parent_dir = osp.dirname(repo_path)
+
+        if osp.basename(parent_dir)!='modules' or osp.basename(osp.dirname(parent_dir))=='wiki':
             return
 
         branches = get_module_branches(repo)

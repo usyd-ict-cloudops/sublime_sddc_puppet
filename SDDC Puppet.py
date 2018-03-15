@@ -27,7 +27,9 @@ mods_load_order = [
     '.project',
     '.eyaml',
     '.deploy',
-    '.sync'
+    '.sync',
+    '.promote',
+    '.finish'
 ]
 
 reload_mods = [mod for mod in sys.modules if mod[0:11] in ('sddc_puppet', 'SDDC Puppet') and sys.modules[mod] is not None]
@@ -40,12 +42,14 @@ for suffix in mods_load_order:
         reloaded.append(mod)
 
 if reloaded:
-    print("SDDC Puppet: reloaded submodules", reloaded)
+    print('\n'.join(map("SDDC Puppet: reloaded submodule {0}".format,reloaded)))
 
 # Now actually import all the commands so they'll be visible to Sublime
 from .sddc_puppet.workon import PuppetCoreWorkOnCommand, PuppetWorkOnAppCommand, PuppetWorkOnModuleCommand, PuppetWorkOnNewBranchCommand
-from .sddc_puppet.project import PuppetCoreProjectCommand, PuppetProjectCommand
 from .sddc_puppet.eyaml import EyamlEncryptCommand
 from .sddc_puppet.deploy import PuppetCoreDeployCommand, PuppetDeployCommand, PuppetTemplateCommand, PuppetDeployEventListener
 from .sddc_puppet.sync import PuppetCoreSyncCommand, PuppetSyncCommand
+from .sddc_puppet.project import PuppetCoreProjectCommand, PuppetProjectCommand
+from .sddc_puppet.promote import PuppetCorePromoteCommand, PuppetPromoteCommand
+from .sddc_puppet.finish import PuppetCoreFinishCommand, PuppetFinishCommand
 from sddc_common import *

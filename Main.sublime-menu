@@ -15,7 +15,7 @@
             {"command": "puppet_project", "args": {"setup": true}},
             {"command": "puppet_project", "args": {"setup": true,"defaults":true}},
             {"caption": "Help", "command": "puppet_help"},
-            {"caption": "-", "id": "sddc-puppet-other"},
+            {"caption": "-", "id": "sddc-puppet-begin"},
             {
                 "caption": "Puppet Advanced",
                 "id": "sddc-puppet-advanced",
@@ -99,28 +99,29 @@
                         "caption": "Promote",
                         "id": "sddc-puppet-promote",
                         "children": [
-                            {"caption": "Promote from", "command": "puppet_core_promote", 
+                            {"caption": "Promote from", "command": "puppet_promote", 
                                 "args": {"to": false}},
-                            {"caption": "Promote to", "command": "puppet_core_promote", 
+                            {"caption": "Promote to", "command": "puppet_promote", 
                                 "args": {"to": true}},
                             {"caption": "Promote and Finish", "command": "puppet_promote", 
                                 "args": {"finish": true}},
-                            {"caption": "Promote from and Finish", "command": "puppet_core_promote",
+                            {"caption": "Promote from and Finish", "command": "puppet_promote",
                                 "args": {"to": false, "finish": true}},
-                            {"caption": "Promote to and Finish", "command": "puppet_core_promote",
+                            {"caption": "Promote to and Finish", "command": "puppet_promote",
                                 "args": {"to": true, "finish": true}},
-                            {"caption": "Promote and Force Finish", "command": "puppet_core_promote",
+                            {"caption": "Promote and Force Finish", "command": "puppet_promote",
                                 "args": {"finish": true, "force_finish": true}},
-                            {"caption": "Force Promote: Overwrite", "command": "puppet_core_promote",
+                            {"caption": "Force Promote: Overwrite", "command": "puppet_promote",
                                 "args": {"force": true, "overwrite": true}},
-                            {"caption": "Force Promote: Discard", "command": "puppet_core_promote",
+                            {"caption": "Force Promote: Discard", "command": "puppet_promote",
                                 "args": {"force": true, "overwrite": false}},
                         ]
                     },
                     {
                         "caption": "Other",
-                        "id": "sddc-puppet-promote",
+                        "id": "sddc-puppet-other",
                         "children": [
+                            {"caption": "Force Finish Module Branch", "command": "puppet_finish", "args": {"force": true}},
                             {"caption": "Unclutter", "command": "puppet_unclutter"},
                         ]
                     }
