@@ -15,7 +15,7 @@
             {"command": "puppet_project", "args": {"setup": true}},
             {"command": "puppet_project", "args": {"setup": true,"defaults":true}},
             {"caption": "Help", "command": "puppet_help"},
-            {"caption": "-", "id": "sddc-puppet-other"},
+            {"caption": "-", "id": "sddc-puppet-begin"},
             {
                 "caption": "Puppet Advanced",
                 "id": "sddc-puppet-advanced",
@@ -119,8 +119,9 @@
                     },
                     {
                         "caption": "Other",
-                        "id": "sddc-puppet-promote",
+                        "id": "sddc-puppet-other",
                         "children": [
+                            {"caption": "Force Finish Module Branch", "command": "puppet_finish", "args": {"force": true}},
                             {"caption": "Unclutter", "command": "puppet_unclutter"},
                         ]
                     }
