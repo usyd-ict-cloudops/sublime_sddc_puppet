@@ -12,6 +12,9 @@ def merged_into(repo,branch):
 
 
 class PuppetCorePromoteCommand(ProjectCommandHelper,AsyncMacroRunner,WindowCommand):
+
+    status_fmt = 'Promoting {0[repo].working_dir} on branch {0[repo].head.ref.name} with branch {0[branch]}'
+
     def run(self, repo_path, branch, finalize=False, force=False, force_finalize=False, overwrite=True, to=None, state=None):
         repo = scm.Repo(repo_path)
         if repo is None:
@@ -20,7 +23,9 @@ class PuppetCorePromoteCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComma
         if to is not True and to is not False:
             return
 
-        self.run_command(repo, branch, finalize, force, force_finalize, overwrite, to)
+        self.run_command(state=state, repo=repo, branch=branch, 
+            finalize=finalize, force=force, force_finalize=force_finalize, 
+            overwrite=overwrite, to=to)
 
     def async_cmd(self, repo, branch, finalize, force, force_finalize, overwrite, to, **args):
         if to:

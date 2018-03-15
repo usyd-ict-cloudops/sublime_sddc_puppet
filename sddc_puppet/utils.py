@@ -76,7 +76,7 @@ target_regex_parts = {
     'wiki': '(?P<wiki>#|)',
     'scope':'(?P<scope>[*^]|)',
     'globals': '(?<=[*])[a-z][a-z0-9]{1,24}',
-    'tenants': '(?<=\\^)[a-z][a-z0-9]{3}',
+    'tenants': '(?<=\\^)org_[a-z][a-z0-9]{3}',
     'applications': '(?<![*^])(?:[a-z][a-z0-9]{3}|)[a-z][a-z0-9]{3}',
     'suffix': '_(?P<suffix>[a-z][a-z0-9_]{1,24})',
     'quick': '\\~(?P<quick>[dmo]|l[dpst]|[do][fko]\w(?P<release>\w*))',
@@ -85,7 +85,7 @@ target_regex_parts = {
     'subpath': '(?:|(?P<focus>/)|:(?P<subpath>.*))'
 }
 
-target_regex_frame = '^{wiki}{scope}(?P<prefix>{globals}|{tenants}|{applications})(?:{data}|{quick}|{suffix}){branch}{subpath}$'
+target_regex_frame = '^{wiki}{scope}(?P<prefix>{applications}|{tenants}|{globals})(?:{data}|{quick}|{suffix}){branch}{subpath}$'
 
 target_regex = re.compile(target_regex_frame.format(**target_regex_parts))
 
