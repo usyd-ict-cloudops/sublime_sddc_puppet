@@ -28,7 +28,8 @@ mods_load_order = [
     '.eyaml',
     '.deploy',
     '.sync',
-    '.promote'
+    '.promote',
+    '.finish'
 ]
 
 reload_mods = [mod for mod in sys.modules if mod[0:11] in ('sddc_puppet', 'SDDC Puppet') and sys.modules[mod] is not None]
@@ -50,4 +51,5 @@ from .sddc_puppet.deploy import PuppetCoreDeployCommand, PuppetDeployCommand, Pu
 from .sddc_puppet.sync import PuppetCoreSyncCommand, PuppetSyncCommand
 from .sddc_puppet.project import PuppetCoreProjectCommand, PuppetProjectCommand
 from .sddc_puppet.promote import PuppetCorePromoteCommand, PuppetPromoteCommand
+from .sddc_puppet.finish import PuppetCoreFinishCommand, PuppetFinishCommand
 from sddc_common import *
