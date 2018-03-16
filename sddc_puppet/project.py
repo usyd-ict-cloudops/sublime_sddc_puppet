@@ -3,6 +3,7 @@ import sublime
 from sublime_plugin import WindowCommand
 import os
 import os.path as osp
+import json
 import subprocess
 from sddc_common.workflow import get_config, set_config
 from .utils import NotProjectCommandHelper, get_setting, expand_path
