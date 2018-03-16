@@ -1,6 +1,7 @@
 {
    "*": {
       "*": [
+         "mdpopups",
          "python-sddc_common"
       ]
    }
