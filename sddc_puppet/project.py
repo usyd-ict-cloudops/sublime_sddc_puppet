@@ -61,7 +61,7 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,WindowCommand):
                 if not osp.exists(location):
                     os.makedirs(location)
                     with open(project_file_name,'w') as fp:
-                        json.dump({'folders': [{'path','.'}], 'settings': {
+                        json.dump({'folders': [{'path': '.'}], 'settings': {
                             'is_puppet': True, 'puppet_scm_provider_account': account}},fp)
 
         open_project(project_name)
