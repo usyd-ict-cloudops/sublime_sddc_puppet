@@ -1,7 +1,13 @@
 {
    "*": {
       "*": [
+         "pygments",
+         "python-markdown",
          "mdpopups",
+         "python-jinja2",
+         "markupsafe",
+         "pyyaml",
+         "pymdownx",
          "python-sddc_common"
       ]
    }
