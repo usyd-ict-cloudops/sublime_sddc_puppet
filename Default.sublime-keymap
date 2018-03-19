@@ -48,6 +48,12 @@
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 		]
 	},
+	{
+		// "args": {"phantom_name":"mdviewer","new_view":true},
+		"keys": ["alt+shift+v"], "command": "markdown_viewer", "context": [
+			{ "key": "selector", "operator": "equal", "operand": "text.html.markdown" }
+		]
+	},
 	{ "keys": ["alt+w"], "command": "puppet_core_work_on", "context":
 		[
 			{ "key": "setting.is_widget", "operator": "equal", "operand": false },

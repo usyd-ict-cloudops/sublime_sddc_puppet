@@ -1,12 +1,12 @@
 
 import sublime
-from sublime_plugin import WindowCommand
+import sublime_plugin
 import os
 import os.path as osp
 import json
 import subprocess
 from sddc_common.workflow import get_config, set_config
-from .utils import NotProjectCommandHelper, get_setting, expand_path
+from .utils import NotProjectCommandHelper, ProjectCommandHelper, get_setting, expand_path
 
 def get_executable_path():
     executable_path = sublime.executable_path()
@@ -44,12 +44,13 @@ def open_project(project_name=None):
         subl_command('--project',project_file_name)
 
 
-class PuppetCoreProjectCommand(NotProjectCommandHelper,WindowCommand):
+class PuppetCoreProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowCommand):
 
     def run(self, account=None, name=None, email=None, location=None, setup=False, defaults=False, state=None, project_name=None):
         if setup:
             project_file_name = get_project(project_name)
             account = get_setting('puppet_scm_provider_account') if account is None else account
+            targets = get_setting('puppet_ensure_targets',[])
             location = osp.dirname(project_file_name)
             cfg = get_config()
             if cfg:
@@ -62,12 +63,15 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,WindowCommand):
                     os.makedirs(location)
                     with open(project_file_name,'w') as fp:
                         json.dump({'folders': [{'path': '.'}], 'settings': {
-                            'is_puppet': True, 'puppet_scm_provider_account': account}},fp)
+                            'is_puppet': True, 'puppet_ensure_targets': targets,
+                            'puppet_scm_provider_account': account}},fp,indent=4)
+            else:
+                sublime.message_dialog('Setup Puppet with custom options not available at this time.')
 
         open_project(project_name)
 
 
-class PuppetProjectCommand(NotProjectCommandHelper,WindowCommand):
+class PuppetProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowCommand):
 
     def run(self, defaults=False, setup=False, state=None, project_name=None):
         self.window.run_command('puppet_core_project',args={
@@ -87,3 +91,23 @@ class PuppetProjectCommand(NotProjectCommandHelper,WindowCommand):
 
     def is_visible(self, defaults=False, setup=False, state=None, project_name=None):
         return self.is_enabled(defaults, setup, state, project_name)
+
+
+class PuppetProjectEnsureTargetsCommand(ProjectCommandHelper,sublime_plugin.WindowCommand):
+
+    def run(self, targets):
+        print('Ensuring Puppet Targets')
+        for target in targets:
+            self.window.run_command('puppet_core_work_on',args={"target":target})
+
+    def __init__(self, window):
+        super(PuppetProjectEnsureTargetsCommand, self).__init__(window)
+        self._api_ready()
+
+    def _api_ready(self):
+        if not sublime_plugin.api_ready:
+            sublime.set_timeout(self._api_ready, 1000)
+        else:
+            targets = self.get_setting('puppet_ensure_targets',[])
+            if targets and isinstance(targets, list):
+                self.window.run_command('puppet_project_ensure_targets',args={"targets":targets})
