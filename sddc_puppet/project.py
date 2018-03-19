@@ -6,7 +6,7 @@ import os.path as osp
 import json
 import subprocess
 from sddc_common.workflow import get_config, set_config
-from .utils import NotProjectCommandHelper, ProjectCommandHelper, get_setting, expand_path
+from .utils import NotProjectCommandHelper, ProjectCommandHelper, get_setting, expand_path, parse_target
 
 def get_executable_path():
     executable_path = sublime.executable_path()
@@ -66,9 +66,17 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowComm
                             'is_puppet': True, 'puppet_ensure_targets': targets,
                             'puppet_scm_provider_account': account}},fp,indent=4)
             else:
-                sublime.message_dialog('Setup Puppet with custom options not available at this time.')
+                sublime.error_dialog('Setup Puppet with custom options not available at this time.')
+                return
+            
+            if targets and isinstance(targets, list):
+                sublime.set_timeout(self.ensure_targets,5000)
 
         open_project(project_name)
+
+    def ensure_targets(self):
+        for w in sublime.windows():
+            w.run_command('puppet_project_ensure_targets')
 
 
 class PuppetProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowCommand):
@@ -95,19 +103,16 @@ class PuppetProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowCommand)
 
 class PuppetProjectEnsureTargetsCommand(ProjectCommandHelper,sublime_plugin.WindowCommand):
 
-    def run(self, targets):
+    def run(self):
         print('Ensuring Puppet Targets')
+        targets = self.get_setting('puppet_ensure_targets',[])
+        if not targets or not isinstance(targets, list):
+            return
         for target in targets:
-            self.window.run_command('puppet_core_work_on',args={"target":target})
-
-    def __init__(self, window):
-        super(PuppetProjectEnsureTargetsCommand, self).__init__(window)
-        self._api_ready()
-
-    def _api_ready(self):
-        if not sublime_plugin.api_ready:
-            sublime.set_timeout(self._api_ready, 1000)
-        else:
-            targets = self.get_setting('puppet_ensure_targets',[])
-            if targets and isinstance(targets, list):
-                self.window.run_command('puppet_project_ensure_targets',args={"targets":targets})
+            t_obj = parse_target(target)
+            if t_obj is not None:
+                repo_path = osp.join(self.project_root,t_obj.repo)
+                if not osp.exists(repo_path):
+                    self.window.run_command('puppet_core_work_on',args={"target":target})
+                else:
+                    print('Exists', repo_path)
