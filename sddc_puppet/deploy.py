@@ -133,10 +133,6 @@ class PuppetDeployEventListener(EventListener):
                 return
             window,state,cur_file,all_files,include_untracked = PuppetDeploy.windows[view.id()]
             repo_path = view.settings().get('git_repo')
-            # state = view.settings().get('sddc_state')
-            # cur_file = view.settings().set('sddc_file')
-            # all_files = view.settings().set('sddc_all')
-            # include_untracked = view.settings().set('sddc_untracked')
             window.run_command('puppet_core_deploy', {
                 'message': message, 
                 'files': [cur_file],
@@ -144,34 +140,3 @@ class PuppetDeployEventListener(EventListener):
                 'include_untracked': include_untracked,
                 'repo_path': repo_path,
                 'state': state})
-
-
-# from sublime_plugin import WindowCommand
-# from .helpers import AsyncMacro
-# from SublimeGit.helpers import GitRepoHelper
-
-# class PuppetCoreDeploy(AsyncMacro,GitRepoHelper,WindowCommand):
-#     def run(self,msg=None, repo=None, all_files=True, include_untracked=True, state=None):
-#         if state is None:
-#             if msg is None:
-#                 pass
-#             repo = repo if repo else self.get_repo()
-#             if repo is None:
-#                 return
-#             cmds = []
-#             flags = '-m'
-#             if all_files:
-#                 if include_untracked:
-#                     cmds.append({"command":"puppet_core_git","args":{'cmd':['add','.']}})
-#                 else:
-#                     flags = '-am'
-#             else:
-#                 fn = self.window.active_view().file_name()
-#                 if not fn:
-#                     return
-#                 cmds.append({"command":"puppet_core_git","args":{'cmd':['add',fn]}})
-#             cmds.append({"command":"puppet_core_git","args":{'cmd':['commit',flags,msg]}})
-#             cmds.append({"command":"puppet_core_git","args":{'cmd':['push','-c','push.default=upstream','origin']}})
-#             state = self.make_state('puppet_deploy', cmds , {"repo":repo})
-#         self.run_macro(state)
-
