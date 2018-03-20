@@ -24,7 +24,7 @@ def get_project(project_name=None):
     if project_name is None:
         project_name = get_setting('puppet_primary_project')
     pfn = get_setting('puppet_projects',{}).get(project_name, get_setting('puppet_project'))
-    return expand_path(pfn)
+    return expand_path(pfn) if pfn else None
 
 
 def project_exists(project_name=None):
@@ -62,8 +62,9 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowComm
                 if not osp.exists(location):
                     os.makedirs(location)
                     with open(project_file_name,'w') as fp:
-                        json.dump({'folders': [{'path': '.'}], 'settings': {
-                            'is_puppet': True, 'puppet_ensure_targets': targets,
+                        json.dump({'folders': [{
+                                'path': '.', "file_exclude_patterns": ["*.sublime-project"]}
+                            ], 'settings': {'is_puppet': True, 'puppet_ensure_targets': targets,
                             'puppet_scm_provider_account': account}},fp,indent=4)
             else:
                 sublime.error_dialog('Setup Puppet with custom options not available at this time.')
