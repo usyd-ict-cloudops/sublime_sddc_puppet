@@ -17,9 +17,12 @@ SDDC_DEPLOY_TEMPLATE = """
 """
 
 def create_deploy_template(cur_file, repo, all_files, include_untracked):
-    repo.git.add(all=True)
-    renames = {d.b_path:d.a_path for d in repo.index.diff(repo.head.commit,R=True).iter_change_type('R')}
-    repo.git.reset('HEAD',q=True)
+    if repo.heads and repo.refs and repo.branches and repo.head.is_valid():
+        repo.git.add(all=True)
+        renames = {d.b_path:d.a_path for d in repo.index.diff(repo.head.commit,R=True).iter_change_type('R')}
+        repo.git.reset('HEAD',q=True)
+    else:
+        renames = {}
     if repo.is_dirty() or repo.untracked_files:
         if all_files:
             if include_untracked:
@@ -34,7 +37,10 @@ def create_deploy_template(cur_file, repo, all_files, include_untracked):
     else:
         return
     status = repo.git.status()
-    repo.git.reset('HEAD',q=True)
+    if repo.heads and repo.refs and repo.branches:
+        repo.git.reset('HEAD',q=True)
+    else:
+        repo.index.remove(['.'],r=True,cached=True)
     return SDDC_DEPLOY_TEMPLATE+''.join('#'+l if l[:1]=='\t' else '# '+l for l in status.splitlines(True))
 
 
