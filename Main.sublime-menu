@@ -15,7 +15,24 @@
             {"command": "puppet_project", "args": {"setup": true}},
             {"command": "puppet_project", "args": {"setup": true,"defaults":true}},
             {"caption": "Help", "command": "puppet_help"},
-            {"caption": "-", "id": "sddc-puppet-begin"},
+            {"caption": "-", "id": "sddc-packages"},
+            {
+                "id": "sddc-useful-packages",
+                "children": [
+                    {"command": "smart_install", "args": {"name":"Puppet"}},
+                    {"command": "smart_install", "args": {"name": "SublimeLinter-contrib-puppet-lint,SublimeLinter"}}
+                ]
+            },
+            {"caption": "-", "id": "sddc-git"},
+            {"caption": "Work On Hiera Data", "command": "puppet_work_on_app"},
+            {"caption": "Work On Puppet Module", "command": "puppet_work_on_module"},
+            {"caption": "Encrypt Data Value", "command": "eyaml_encrypt"},
+            {"caption": "Sync Repo", "command": "puppet_sync"},
+            {"caption": "Deploy Changes", "command": "puppet_deploy"},
+            {"caption": "Work On New Module Branch", "command": "puppet_work_on_new_branch"},
+            {"caption": "Promote Module Branch", "command": "puppet_promote"},
+            {"caption": "Finish Module Branch", "command": "puppet_finish"},
+            {"caption": "-", "id": "sddc-puppet"},
             {
                 "caption": "Puppet Advanced",
                 "id": "sddc-puppet-advanced",
@@ -125,25 +142,6 @@
                             {"caption": "Unclutter", "command": "puppet_unclutter"},
                         ]
                     }
-                ]
-            },
-            {"caption": "-", "id": "sddc-puppet"},
-            {"caption": "Work On Hiera Data", "command": "puppet_work_on_app"},
-            {"caption": "Work On Puppet Module", "command": "puppet_work_on_module"},
-            {"caption": "Encrypt Data Value", "command": "eyaml_encrypt"},
-            {"caption": "Sync Repo", "command": "puppet_sync"},
-            {"caption": "Deploy Changes", "command": "puppet_deploy"},
-            {"caption": "-", "id": "sddc-puppet-module"},
-            {"caption": "Work On New Module Branch", "command": "puppet_work_on_new_branch"},
-            {"caption": "Promote Module Branch", "command": "puppet_promote"},
-            {"caption": "Finish Module Branch", "command": "puppet_finish"},
-            {"caption": "-", "id": "sddc-git"},
-            {"caption": "-", "id": "sddc-packages"},
-            {
-                "id": "sddc-useful-packages",
-                "children": [
-                    {"command": "smart_install", "args": {"name":"Puppet"}},
-                    {"command": "smart_install", "args": {"name": "SublimeLinter-contrib-puppet-lint,SublimeLinter"}}
                 ]
             }
         ]
