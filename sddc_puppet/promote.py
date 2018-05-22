@@ -66,8 +66,10 @@ class PuppetPromoteCommand(ContextCommandHelper,scm.RepoHelper,AsyncMacroRunner,
         }
 
         def on_select(window, args, items, idx):
+            print('Promote selected index',idx)
             if idx < 0:
                 return
-            window.run_command('puppet_core_promote',args=dict(branch=items[idx][0],**args))
+            print('Promote selected item',items[idx])
+            window.run_command('puppet_core_promote',args=dict(branch=items[idx][0],to=items[idx][1]=='Target',**args))
 
         self.view.window().show_quick_panel(items, partial(on_select, self.view.window(), args, items))

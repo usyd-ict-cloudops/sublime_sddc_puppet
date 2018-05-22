@@ -51,25 +51,34 @@ quick_defaults = {
     'dfr': 'defaults_osfamily_RedHat',
     'dfu': 'defaults_osfamily_Ubuntu',
     'dfw': 'defaults_osfamily_Windows',
-    'dfa': 'defaults_osfamily_Amazon',
-    'dfr': 'defaults_osfamily_RedHat',
-    'dfu': 'defaults_osfamily_Ubuntu',
-    'dfw': 'defaults_osfamily_Windows',
+    'doa': 'defaults_os_Amazon',
+    'dor': 'defaults_os_RedHat',
+    'dou': 'defaults_os_Ubuntu',
+    'dow': 'defaults_os_Windows',
+    'kl': 'kernel_Linux',
+    'kw': 'kernel_windows',
+    'fr': 'osfamily_RedHat',
+    'fu': 'osfamily_Ubuntu',
+    'fw': 'osfamily_Windows',
+    'oa': 'os_Amazon',
+    'or': 'os_RedHat',
+    'ou': 'os_Ubuntu',
+    'ow': 'os_Windows',
     'ld': 'lifecycle_development',
     'lp': 'lifecycle_production',
     'ls': 'lifecycle_scratch',
     'lt': 'lifecycle_test',
     'm':'metadata',
-    'o': 'overrides',
-    'okl': 'overrides_kernel_Linux',
-    'okw': 'overrides_kernel_windows',
-    'ofr': 'overrides_osfamily_RedHat',
-    'ofu': 'overrides_osfamily_Ubuntu',
-    'ofw': 'overrides_osfamily_Windows',
-    'ofa': 'overrides_osfamily_Amazon',
-    'ofr': 'overrides_osfamily_RedHat',
-    'ofu': 'overrides_osfamily_Ubuntu',
-    'ofw': 'overrides_osfamily_Windows'
+    'O': 'overrides',
+    'Okl': 'overrides_kernel_Linux',
+    'Okw': 'overrides_kernel_windows',
+    'Ofr': 'overrides_osfamily_RedHat',
+    'Ofu': 'overrides_osfamily_Ubuntu',
+    'Ofw': 'overrides_osfamily_Windows',
+    'Ooa': 'overrides_os_Amazon',
+    'Oor': 'overrides_os_RedHat',
+    'Oou': 'overrides_os_Ubuntu',
+    'Oow': 'overrides_os_Windows'
 }
 
 target_regex_parts = {
@@ -79,7 +88,7 @@ target_regex_parts = {
     'tenants': '(?<=\\^)org_[a-z][a-z0-9]{3}',
     'applications': '(?<![*^])(?:[a-z][a-z0-9]{3}|)[a-z][a-z0-9]{3}',
     'suffix': '_(?P<suffix>[a-z][a-z0-9_]{1,24})',
-    'quick': '\\~(?P<quick>[dmo]|l[dpst]|[do][fko]\w(?P<release>\w*))',
+    'quick': '\\~(?P<quick>[dmo]|l[dpst]|[dO]?[fko][a-z](?P<release>\w*))',
     'data': '(?P<app>\\.{0,2})|(?P<type>[a-z0-9]{2})|(?P<env>[a-z0-9])\\.?|\\.(?P<role>[a-z0-9.])',
     'branch': '(?:|@(?P<branch>\w+))',
     'subpath': '(?:|(?P<focus>/)|:(?P<subpath>.*))'
@@ -225,8 +234,8 @@ def get_work_on_params(window):
     }
 
 
-def convert_quick(q):
-    return get_setting('puppet_target_quick_map',quick_defaults).get(q[:3])
+def convert_quick(q,l=3):
+    return get_setting('puppet_target_quick_map',quick_defaults).get(q[:l])
 
 
 def calculate_target_path(t):
@@ -261,8 +270,12 @@ def calculate_target_path(t):
         fn_fmt = 'env_{env}.yaml'
     elif t['role']:
         fn_fmt = 'role_{role}.yaml'
-    elif t['quick'] and t['quick'][:1] in 'ml':
-        fn_fmt = '{0}.yaml'.format(convert_quick(t['quick']))
+    elif t['quick'] and t['quick'][:1] in 'fklmo':
+        if t['release']:
+            fn_fmt = '{0}_{1}.yaml'.format(convert_quick(t['quick'],2),t['release'])
+        else:
+            fn_fmt = '{0}.yaml'.format(convert_quick(t['quick'],2))
+        # fn_fmt = '{0}.yaml'.format(convert_quick(t['quick']))
     elif t['app']:
         fn_fmt = '{subpath}' if t['subpath'] else 'README.md'
     else:
