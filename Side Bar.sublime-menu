@@ -2,11 +2,11 @@
     {"caption": "-", "id": "sddc-puppet-sidebar-start"},
     {
         "caption": "Puppet",
-        "id": "sddc-puppet-advanced",
+        "id": "sddc-puppet-sidebar-advanced",
         "children": [
             {
                 "caption": "Work On",
-                "id": "sddc-puppet-workon",
+                "id": "sddc-puppet-sidebar-workon",
                 "children": [
                     {
                         "caption": "Work On Current App Environment",
@@ -30,7 +30,7 @@
             },
             {
                 "caption": "Sync",
-                "id": "sddc-puppet-sync",
+                "id": "sddc-puppet-sidebar-sync",
                 "children": [
                     {
                         "caption": "Current Repo",
@@ -51,7 +51,7 @@
             },
             {
                 "caption": "Deploy",
-                "id": "sddc-puppet-deploy",
+                "id": "sddc-puppet-sidebar-deploy",
                 "children": [
                     {
                         "caption": "Deploy Current File",
@@ -81,7 +81,7 @@
             },
             {
                 "caption": "Promote",
-                "id": "sddc-puppet-promote",
+                "id": "sddc-puppet-sidebar-promote",
                 "children": [
                     {"caption": "Promote from", "command": "puppet_core_promote", 
                         "args": {"to": false}},
@@ -103,7 +103,7 @@
             },
             {
                 "caption": "Other",
-                "id": "sddc-puppet-promote",
+                "id": "sddc-puppet-sidebar-promote",
                 "children": [
                     {"caption": "Unclutter", "command": "puppet_unclutter"},
                 ]
