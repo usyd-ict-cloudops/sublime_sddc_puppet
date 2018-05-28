@@ -1,7 +1,7 @@
 import sublime
 from sublime_plugin import WindowCommand, TextCommand
 from sddc_common import scm
-from sddc_common.workflow import work_on, promote_for, promote_to
+from sddc_common.workflow import work_on, promote_for, promote_to, switch_to
 from sddc_common.async import AsyncMacroRunner
 from .utils import get_promote_targets, ContextCommandHelper, ProjectCommandHelper
 from functools import partial
@@ -15,7 +15,7 @@ class PuppetCorePromoteCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComma
 
     status_fmt = 'Promoting {0[repo].working_dir} on branch {0[repo].head.ref.name} with branch {0[branch]}'
 
-    def run(self, repo_path, branch, finalize=False, force=False, force_finalize=False, overwrite=True, to=None, state=None):
+    def run(self, repo_path, branch, finalize=False, force=False, force_finalize=False, overwrite=True, to=None, switch_back=True, state=None):
         repo = scm.Repo(repo_path)
         if repo is None:
             return
@@ -25,17 +25,20 @@ class PuppetCorePromoteCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComma
 
         self.run_command(state=state, repo=repo, branch=branch, 
             finalize=finalize, force=force, force_finalize=force_finalize, 
-            overwrite=overwrite, to=to)
+            overwrite=overwrite, to=to, switch_back=switch_back)
 
-    def async_cmd(self, repo, branch, finalize, force, force_finalize, overwrite, to, **args):
+    def async_cmd(self, repo, branch, finalize, force, force_finalize, overwrite, to, switch_back=True, **args):
         if to:
+            src_branch = scm.branch_name(repo)
             promote_to(repo, branch, finalize, force, force_finalize, overwrite)
+            if not finalize and switch_back:
+                switch_to(repo, src_branch)
         else:
             promote_for(repo, branch, finalize, force, force_finalize, overwrite)
 
 
 class PuppetPromoteCommand(ContextCommandHelper,scm.RepoHelper,AsyncMacroRunner,TextCommand):
-    def run(self, edit, finalize=False, force=False, force_finalize=False, overwrite=True, to=None, state=None):
+    def run(self, edit, finalize=False, force=False, force_finalize=False, overwrite=True, to=None, switch_back=True, state=None):
         repo = self.repo
         if repo is None:
             return
@@ -62,6 +65,7 @@ class PuppetPromoteCommand(ContextCommandHelper,scm.RepoHelper,AsyncMacroRunner,
             'force': force,
             'force_finalize': force_finalize,
             'overwrite': overwrite,
+            'switch_back': switch_back,
             'state': state
         }
 

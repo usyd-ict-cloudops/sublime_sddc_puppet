@@ -350,6 +350,14 @@ def find_yaml_key(view, key):
             return symbol
 
 
+def goto_yaml_key(view, subpath):
+    symbol = find_yaml_key(view, subpath)
+    if symbol is not None:
+        view.show_at_center(symbol.region)
+        view.sel().clear()
+        view.sel().add(sublime.Region(symbol.region.end() + 1))
+
+
 PuppetModule = namedtuple('PuppetModule', ['is_local','scope','name','in_metadata'])
 
 
