@@ -1,12 +1,12 @@
 import os
 import os.path as osp
 import sublime
-from sublime_plugin import WindowCommand, TextCommand
+from sublime_plugin import WindowCommand, TextCommand, EventListener
 from sddc_common import scm
 from sddc_common.async import AsyncMacroRunner
 from sddc_common.workflow import work_on, switch_to
 from .utils import (ProjectCommandHelper, ContextCommandHelper, parse_target, get_work_on_params, 
-    find_yaml_key, noop, get_modules, get_module_branches)
+    goto_yaml_key, noop, get_modules, get_module_branches)
 from functools import partial
 
 
@@ -64,12 +64,21 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
         elif target.path != target.repo and open_target:
             view = window.open_file(path, sublime.TRANSIENT)
             if not target.wiki and not target.suffix and osp.exists(path):
-                symbol = find_yaml_key(view, target.subpath)
-                if symbol is not None:
-                    view.show_at_center(symbol.region)
-                    view.sel().clear()
-                    view.sel().add(sublime.Region(symbol.region.end() + 1))
+                if view.is_loading():
+                    view.settings().set('sddc_yaml_loc', target.subpath)
+                else:
+                    goto_yaml_key(view, target.subpath)
         return repo
+
+
+class PuppetWorkOnEventListener(EventListener):
+
+    def on_load_async(self, view):
+        subpath = view.settings().get('sddc_yaml_loc')
+        if subpath is None:
+            return
+        view.settings().erase('sddc_yaml_loc')
+        goto_yaml_key(view, subpath)
 
 
 class PuppetWorkOnAppCommand(ProjectCommandHelper,AsyncMacroRunner,WindowCommand):
