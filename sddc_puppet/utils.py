@@ -50,20 +50,20 @@ quick_defaults = {
     'dkw': 'defaults_kernel_windows',
     'dfr': 'defaults_osfamily_RedHat',
     'dfu': 'defaults_osfamily_Ubuntu',
-    'dfw': 'defaults_osfamily_Windows',
+    'dfw': 'defaults_osfamily_windows',
     'doa': 'defaults_os_Amazon',
     'dor': 'defaults_os_RedHat',
     'dou': 'defaults_os_Ubuntu',
-    'dow': 'defaults_os_Windows',
+    'dow': 'defaults_os_windows',
     'kl': 'kernel_Linux',
     'kw': 'kernel_windows',
     'fr': 'osfamily_RedHat',
     'fu': 'osfamily_Ubuntu',
-    'fw': 'osfamily_Windows',
+    'fw': 'osfamily_windows',
     'oa': 'os_Amazon',
     'or': 'os_RedHat',
     'ou': 'os_Ubuntu',
-    'ow': 'os_Windows',
+    'ow': 'os_windows',
     'ld': 'lifecycle_development',
     'lp': 'lifecycle_production',
     'ls': 'lifecycle_scratch',
@@ -74,11 +74,11 @@ quick_defaults = {
     'Okw': 'overrides_kernel_windows',
     'Ofr': 'overrides_osfamily_RedHat',
     'Ofu': 'overrides_osfamily_Ubuntu',
-    'Ofw': 'overrides_osfamily_Windows',
+    'Ofw': 'overrides_osfamily_windows',
     'Ooa': 'overrides_os_Amazon',
     'Oor': 'overrides_os_RedHat',
     'Oou': 'overrides_os_Ubuntu',
-    'Oow': 'overrides_os_Windows'
+    'Oow': 'overrides_os_windows'
 }
 
 target_regex_parts = {
