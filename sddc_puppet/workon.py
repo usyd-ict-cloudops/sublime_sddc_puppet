@@ -54,7 +54,8 @@ class PuppetCoreWorkOnCommand(ProjectCommandHelper,AsyncMacroRunner,WindowComman
             os.makedirs(osp.dirname(repo_path),exist_ok=True)
 
         if not osp.exists(repo_path) and not target.wiki:
-            wiki = self.async_cmd(parse_target('#'+target.ref), open_target=False, **args)
+            if self.view.settings().get('puppet_scm_auto_clone_wikis'):
+                wiki = self.async_cmd(parse_target('#'+target.ref), open_target=False, **args)
         repo = work_on(target.repo,target.branch,**work_on_params)
 
         window = self.window

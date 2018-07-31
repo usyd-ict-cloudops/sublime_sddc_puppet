@@ -10,6 +10,13 @@
 	// encryption.
 	"eyaml_public_key_is_x509": true,
 
+	// By default do not clone the wiki repos when cloning their parent.
+	// The reason for this is two fold: First wikis might not be enabled,
+	// and second it is best practice to document in the same repo as your 
+	// code. If documentation is separate it can go stale as you now have 
+	// two update processes, one for documentation and one for code.
+	"puppet_scm_auto_clone_wikis": false,
+
 	// Primary Account to suggest during project setup
 	"puppet_scm_provider_account": null,
 
