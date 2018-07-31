@@ -88,9 +88,9 @@ target_regex_parts = {
     'tenants': '(?<=\\^)org_[a-z][a-z0-9]{3}',
     'applications': '(?<![*^])(?:[a-z][a-z0-9]{3}|)[a-z][a-z0-9]{3}',
     'suffix': '_(?P<suffix>[a-z][a-z0-9_]{1,24})',
-    'quick': '\\~(?P<quick>[dmo]|l[dpst]|[dO]?[fko][a-z](?P<release>\w*))',
+    'quick': '\\~(?P<quick>[dmo]|l[dpst]|[dO]?[fko][a-z](?P<release>\\w*))',
     'data': '(?P<app>\\.{0,2})|(?P<type>[a-z0-9]{2})|(?P<env>[a-z0-9])\\.?|\\.(?P<role>[a-z0-9.])',
-    'branch': '(?:|@(?P<branch>\w+))',
+    'branch': '(?:|@(?P<branch>\\w+))',
     'subpath': '(?:|(?P<focus>/)|:(?P<subpath>.*))'
 }
 
@@ -132,11 +132,17 @@ def expand_path(path,window=None):
 def is_puppet(view):
     return view.settings().get('is_puppet',False)
 
+def is_puppet(view):
+    return bool(view.settings().get('is_puppet_debug',False))
+
 
 class PuppetCommandHelper(object):
 
     def is_puppet(self):
         return is_puppet(self.view)
+
+    def is_puppet_debug(self):
+        return is_puppet_debug(self.view)
 
     def get_setting(self, setting, default=None):
         return self.view.settings().get(setting,get_setting(setting,default))
@@ -202,7 +208,7 @@ class ContextCommandHelper(PuppetOnlyCommandHelper):
 class YAMLHelper(ContextCommandHelper):
 
     def is_enabled(self,*args,**kwargs):
-        return bool(self.is_puppet() and self.view.file_name() and osp.splitext(self.view.file_name())[-1]=='.yaml')
+        return self.is_puppet_debug() or bool(self.is_puppet() and self.view.file_name() and osp.splitext(self.view.file_name())[-1]=='.yaml')
 
 # settings helpers
 
