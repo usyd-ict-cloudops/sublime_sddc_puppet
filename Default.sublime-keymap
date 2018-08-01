@@ -30,6 +30,12 @@
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 		]
 	},
+	{ "keys": ["ctrl+alt+shift+d"], "command": "puppet_deploy", "context":
+		[
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		], "args": {"all_files": false, "include_untracked": false}
+	},
 	{ "keys": ["alt+shift+f"], "command": "puppet_finish", "context":
 		[
 			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
