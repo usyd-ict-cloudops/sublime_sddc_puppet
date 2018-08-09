@@ -132,7 +132,7 @@ def expand_path(path,window=None):
 def is_puppet(view):
     return view.settings().get('is_puppet',False)
 
-def is_puppet(view):
+def is_puppet_debug(view):
     return bool(view.settings().get('is_puppet_debug',False))
 
 
