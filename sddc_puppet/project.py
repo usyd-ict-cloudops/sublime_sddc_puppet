@@ -35,13 +35,14 @@ def is_project(window,project_name=None):
     return get_project(project_name)==window.project_file_name()
 
 
-def open_project(project_name=None):
+def open_project(project_name=None,command=None):
     project_file_name = get_project(project_name)
     window = {w.project_file_name():w for w in sublime.windows()}.get(project_file_name)
     if window:
         sublime.message_dialog('Puppet project already open')
     else:
-        subl_command('--project',project_file_name)
+        cmd_args = [] if command is None else ['--command',command]
+        subl_command('--project',project_file_name,*cmd_args)
 
 
 class PuppetCoreProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowCommand):
@@ -72,12 +73,9 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowComm
             
             if targets and isinstance(targets, list):
                 sublime.set_timeout(self.ensure_targets,5000)
-
-        open_project(project_name)
-
-    def ensure_targets(self):
-        for w in sublime.windows():
-            w.run_command('puppet_project_ensure_targets')
+            open_project(project_name,'puppet_project_ensure_targets')
+        else:
+            open_project(project_name)
 
 
 class PuppetProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowCommand):
