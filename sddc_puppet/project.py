@@ -72,7 +72,7 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowComm
             else:
                 sublime.error_dialog('Setup Puppet with custom options not available at this time.')
                 return
-            open_project(project_name,'puppet_project_ensure_targets')
+            open_project(project_name,'puppet_project_delayed_ensure_targets')
         else:
             open_project(project_name)
 
@@ -107,6 +107,7 @@ class PuppetProjectEnsureTargetsCommand(ProjectCommandHelper,sublime_plugin.Wind
         print('Ensuring Puppet Targets')
         targets = self.get_setting('puppet_ensure_targets',[])
         if not targets or not isinstance(targets, list):
+            print('No Targets Found')
             return
         for target in targets:
             t_obj = parse_target(target)
@@ -116,3 +117,12 @@ class PuppetProjectEnsureTargetsCommand(ProjectCommandHelper,sublime_plugin.Wind
                     self.window.run_command('puppet_core_work_on',args={"target":target})
                 else:
                     print('Exists', repo_path)
+
+
+class PuppetProjectDelayedEnsureTargetsCommand(sublime_plugin.WindowCommand):
+
+    def run(self):
+        sublime.set_timeout(self.delay_run,1000)
+
+    def delay_run(self):
+        self.window.run_command('puppet_project_ensure_targets')

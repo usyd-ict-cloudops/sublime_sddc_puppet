@@ -49,7 +49,7 @@ from .sddc_puppet.workon import PuppetCoreWorkOnCommand, PuppetWorkOnAppCommand,
 from .sddc_puppet.eyaml import EyamlEncryptCommand
 from .sddc_puppet.deploy import PuppetCoreDeployCommand, PuppetDeployCommand, PuppetTemplateCommand, PuppetDeployEventListener
 from .sddc_puppet.sync import PuppetCoreSyncCommand, PuppetSyncCommand
-from .sddc_puppet.project import PuppetCoreProjectCommand, PuppetProjectCommand, PuppetProjectEnsureTargetsCommand
+from .sddc_puppet.project import PuppetCoreProjectCommand, PuppetProjectCommand, PuppetProjectEnsureTargetsCommand, PuppetProjectDelayedEnsureTargetsCommand
 from .sddc_puppet.promote import PuppetCorePromoteCommand, PuppetPromoteCommand
 from .sddc_puppet.finish import PuppetCoreFinishCommand, PuppetFinishCommand
 from sddc_common import *
