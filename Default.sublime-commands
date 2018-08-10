@@ -4,5 +4,11 @@
 			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 		]
+	},
+	{
+		"command": "puppet_project_ensure_targets", "caption": "Puppet Project: Ensure Targets", "context": [
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
 	}
 ]
