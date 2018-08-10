@@ -35,14 +35,16 @@ def is_project(window,project_name=None):
     return get_project(project_name)==window.project_file_name()
 
 
+def project_window(project_name=None):
+    return {w.project_file_name():w for w in sublime.windows()}.get(get_project(project_name))
+
+
 def open_project(project_name=None,command=None):
-    project_file_name = get_project(project_name)
-    window = {w.project_file_name():w for w in sublime.windows()}.get(project_file_name)
-    if window:
+    if project_window(project_name):
         sublime.message_dialog('Puppet project already open')
     else:
         cmd_args = [] if command is None else ['--command',command]
-        subl_command('--project',project_file_name,*cmd_args)
+        subl_command('--project',get_project(project_name),*cmd_args)
 
 
 class PuppetCoreProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowCommand):
@@ -70,9 +72,6 @@ class PuppetCoreProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowComm
             else:
                 sublime.error_dialog('Setup Puppet with custom options not available at this time.')
                 return
-            
-            if targets and isinstance(targets, list):
-                sublime.set_timeout(self.ensure_targets,5000)
             open_project(project_name,'puppet_project_ensure_targets')
         else:
             open_project(project_name)
@@ -97,6 +96,8 @@ class PuppetProjectCommand(NotProjectCommandHelper,sublime_plugin.WindowCommand)
         return bool(project_exists(project_name)) != bool(setup)
 
     def is_visible(self, defaults=False, setup=False, state=None, project_name=None):
+        if project_window(project_name):
+            return False
         return self.is_enabled(defaults, setup, state, project_name)
 
 
