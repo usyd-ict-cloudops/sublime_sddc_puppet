@@ -138,6 +138,7 @@
                         "caption": "Other",
                         "id": "sddc-puppet-other",
                         "children": [
+                            {"caption": "Encrypt File at Value", "command": "eyaml_encrypt", "args": {"from_file": true}},
                             {"caption": "Force Finish Module Branch", "command": "puppet_finish", "args": {"force": true}},
                             {"caption": "Unclutter", "command": "puppet_unclutter"},
                         ]

@@ -45,7 +45,10 @@ class EyamlEncryptCommand(YAMLHelper,TextCommand):
 	def find_in(self, region, selector):
 		return [r for r in self.view.find_by_selector(selector) if region.contains(r)]
 
-	def run(self, edit):
+	def run(self, edit, from_file=False):
+		indent_char = ' ' if self.view.settings().get('translate_tabs_to_spaces') else '\t'
+		indent_size = self.view.settings().get('tab_size')
+		indent_unit = indent_char * indent_size
 		pkfn = self.get_file_setting('eyaml_public_key_file')
 		keydata = der_from_pem_file(pkfn)
 		if get_setting('eyaml_public_key_is_x509',True):
@@ -57,6 +60,7 @@ class EyamlEncryptCommand(YAMLHelper,TextCommand):
 			data_region = self.view.extract_scope(region.b)
 			# if on a key
 			if self.view.match_selector(region.b,'entity.name.tag.yaml'):
+				key_region = data_region
 				str_region = self.find_after(data_region, 'source.yaml string')
 				str_region = self.view.extract_scope(str_region.begin())
 				if not str_region:
@@ -84,14 +88,31 @@ class EyamlEncryptCommand(YAMLHelper,TextCommand):
 					log('non anchor/block-scalar punctuation present')
 					continue
 				data_region = str_region
+			else:
+				key_region = self.find_before(data_region, 'entity.name.tag.yaml')
 			data = self.view.substr(data_region)
 			def run_encrypt(raw_data):
 				if raw_data[:10]=='ENC[PKCS7,':
 					return
+				if from_file:
+					if os.path.exists(raw_data) or os.path.exists(raw_data.strip()):
+						raw_data = raw_data.strip() if not os.path.exists(raw_data) else raw_data
+						if os.path.isfile(raw_data):
+							with open(raw_data) as fp:
+								raw_data = fp.read()
+						else:
+							log('Encryption target is not a file')
+							return
+					else:
+						log('Encryption target file does not exist')
+						return
 				log("Encrypting: {0!r}...{1!r}".format(raw_data[:10],raw_data[-10:]))
 				return encrypt(raw_data,keydata=keydata,format='DER')
 			# data is block
 			if self.view.match_selector(data_region.begin(),'string.unquoted.block.yaml'):
+				if from_file:
+					log('File encryption value cannot be Block-Scalar')
+					continue
 				indent = data[:len(data) - len(data.lstrip())]
 				btype_region = self.find_before(data_region, 'keyword.control.flow.block-scalar')
 				if self.view.match_selector(btype_region.begin(), 'keyword.control.flow.block-scalar.literal'):
@@ -109,6 +130,9 @@ class EyamlEncryptCommand(YAMLHelper,TextCommand):
 					edata = run_encrypt(yaml.safe_load(data))
 				else:
 					edata = run_encrypt(data)
+				if from_file:
+					indent = indent_unit * (self.view.indentation_level(key_region.begin())+1)
+					edata = '>\n'+textwrap.fill(edata,len(indent)+64,initial_indent=indent,subsequent_indent=indent)
 			if edata is not None:
 				self.view.replace(edit, data_region, edata)
 	def is_enabled(self,*args,**kwargs):
