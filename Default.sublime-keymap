@@ -42,6 +42,7 @@
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 		]
 	},
+	{ "keys": ["alt+shift+m"], "command": "exec", "args": {"shell_cmd": "smerge '$file'"} },
 	{ "keys": ["alt+shift+p"], "command": "puppet_promote", "context":
 		[
 			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
@@ -66,7 +67,15 @@
 			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
 		]
 	},
-	{ "keys": ["ctrl+alt+shift+e"], "command": "eyaml_encrypt", "context":
+	{ "keys": ["alt+shift+e"], "command": "eyaml_encrypt", "context":
+		[
+			{ "key": "selector", "operator": "equal", "operand": "source.yaml" },
+			{ "key": "num_selections", "operator": "equal", "operand": 1 },
+			{ "key": "setting.is_widget", "operator": "equal", "operand": false },
+			{ "key": "setting.is_puppet", "operator": "equal", "operand": true }
+		]
+	},
+	{ "keys": ["ctrl+alt+shift+e"], "command": "eyaml_encrypt", "args": {"from_file": true}, "context":
 		[
 			{ "key": "selector", "operator": "equal", "operand": "source.yaml" },
 			{ "key": "num_selections", "operator": "equal", "operand": 1 },
